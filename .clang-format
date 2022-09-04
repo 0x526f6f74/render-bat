@@ -1,0 +1,57 @@
+# General
+Language: Cpp
+Standard: c++20
+BasedOnStyle: Google
+
+# Indentation
+IndentWidth: 4
+AccessModifierOffset: -4
+NamespaceIndentation: All
+IndentPPDirectives: AfterHash
+
+# Comments
+FixNamespaceComments: true
+
+# Alignment
+DerivePointerAlignment: false
+PointerAlignment: Left
+AlignEscapedNewlines: Right
+AlignAfterOpenBracket: BlockIndent
+
+# Formatting
+ColumnLimit: 160
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: true
+  BeforeWhile: true
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+CompactNamespaces: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortEnumsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerIndentWidth: 2
+IncludeBlocks: Regroup
+SortIncludes: true
+SpaceInEmptyBlock: true
+SpaceBeforeInheritanceColon: true
+BinPackArguments: false
+BinPackParameters: false
+Cpp11BracedListStyle: true
