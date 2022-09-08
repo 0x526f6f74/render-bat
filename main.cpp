@@ -103,21 +103,21 @@ int main()
         const rb::Framebuffer framebuffer{WIDTH, HEIGHT};
 #endif
 
-        const rb::VertexBuffer vao(sizeof(vertices), static_cast<const void*>(vertices.data()));
-        const rb::IndexBuffer ibo(sizeof(indices), static_cast<const void*>(indices.data()));
-        const rb::Shader shader("../shaders/cubemap.glsl");
-        const rb::CameraConfig camera_config({90.0f, static_cast<float>(WIDTH), static_cast<float>(HEIGHT)});
-        rb::IsometricCameraController camera(camera_config, {-ASPECT_RATIO * ZOOM_LEVEL, ASPECT_RATIO * ZOOM_LEVEL, -ZOOM_LEVEL, ZOOM_LEVEL});
+        const rb::VertexBuffer vao{sizeof(vertices), static_cast<const void*>(vertices.data())};
+        const rb::IndexBuffer ibo{sizeof(indices), static_cast<const void*>(indices.data())};
+        const rb::Shader shader{"../shaders/cubemap.glsl"};
+        const rb::CameraConfig camera_config{90.0f, static_cast<float>(WIDTH), static_cast<float>(HEIGHT)};
+        rb::IsometricCameraController camera{camera_config, {-ASPECT_RATIO * ZOOM_LEVEL, ASPECT_RATIO * ZOOM_LEVEL, -ZOOM_LEVEL, ZOOM_LEVEL}};
 
-        const rb::Cubemap grass_cubemap({
+        const rb::Cubemap grass_cubemap{{
             "../../assets/blocks/grass_side_carried.png",
             "../../assets/blocks/grass_side_carried.png",
             "../../assets/blocks/grass_carried.png",
             "../../assets/blocks/dirt.png",
             "../../assets/blocks/grass_side_carried.png",
             "../../assets/blocks/grass_side_carried.png",
-        });
-        const rb::Cubemap bedrock_cubemap({"../../assets/blocks/bedrock.png"});
+        }};
+        const rb::Cubemap bedrock_cubemap{{"../../assets/blocks/bedrock.png"}};
 
 #if RB_REAL_TIME
         state.mouse.cursor_pos = window.get_cursor_pos();
