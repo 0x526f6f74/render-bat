@@ -83,7 +83,7 @@ int main()
     set_block_vertices(0, 0, {0.0f, 0.0f, 0.0f});
     set_block_vertices(1, 1, {1.0f, 0.0f, 0.0f});
 
-    const rb::WindowConfig window_config({3, 3}, 8);
+    const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
     const rb::RealtimeWindow window{{window_config, "Render Bat", {WIDTH, HEIGHT}, true, state.mouse.cursor_is_disabled, key_callback, mouse_button_callback}};
 #else
