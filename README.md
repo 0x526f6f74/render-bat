@@ -3,6 +3,7 @@
     <br>
     <br>
     <a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a>
+    <a href="https://github.com/0x526f6f74/render-bat/actions"><img src="https://raw.githubusercontent.com/0x526f6f74/render-bat/main/assets/ci_badge.svg?token=GHSAT0AAAAAABXMVF5LQ75DBSXPOQAAV4LQYY2H3PA" alt="CI Status"></a>
     <br>
     <br>
     <i>Minecraft Bedrock structure renderer using OpenGL in C++</i>
