@@ -16,13 +16,21 @@ namespace rb
         void update(const RealtimeWindow& window) noexcept;
     };
 
+    struct MouseState
+    {
+        glm::dvec2 cursor_pos;
+        glm::dvec2 delta_pos;
+
+        void update(const RealtimeWindow& window) noexcept;
+    };
+
     struct State
     {
         void update(const RealtimeWindow& window, double dt) noexcept;
 
         KeyboardState keyboard;
-
-        glm::dvec2 cursor_pos;
+        MouseState mouse;
+    
         double previous_frame_time;
     };
 }  // namespace rb

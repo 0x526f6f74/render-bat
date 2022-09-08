@@ -36,8 +36,16 @@ namespace rb
         }
     }
 
+    void MouseState::update(const RealtimeWindow& window) noexcept
+    {
+        const auto current_pos = window.get_cursor_pos();
+        this->delta_pos = current_pos - this->cursor_pos;
+        this->cursor_pos = current_pos;
+    }
+
     void State::update(const RealtimeWindow& window, double dt) noexcept
     {
         this->keyboard.update(window);
+        this->mouse.update(window);
     }
 }  // namespace rb

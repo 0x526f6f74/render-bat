@@ -121,7 +121,7 @@ int main()
 
 #if RB_REAL_TIME
         rb::State state;
-        state.cursor_pos = window.get_cursor_pos();
+        state.mouse.cursor_pos = window.get_cursor_pos();
         state.previous_frame_time = window.get_time();
 
         while (!window.should_close())
@@ -138,10 +138,7 @@ int main()
             if (state.keyboard.space_is_pressed) camera.move_up(dt * camera_config.speed);
             if (state.keyboard.shift_is_pressed) camera.move_up(-dt * camera_config.speed);
 
-            const glm::dvec2 current_pos = window.get_cursor_pos();
-            const glm::dvec2 delta_pos = current_pos - state.cursor_pos;
-            state.cursor_pos = current_pos;
-            if (cursor_is_disabled && delta_pos != glm::dvec2(0.0)) camera.on_mouse_move(delta_pos);
+            if (cursor_is_disabled && state.mouse.delta_pos != glm::dvec2(0.0)) camera.on_mouse_move(state.mouse.delta_pos);
 #endif
 
             glViewport(0, 0, WIDTH, HEIGHT);
