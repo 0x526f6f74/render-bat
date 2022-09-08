@@ -82,11 +82,13 @@ namespace rb
         this->on_mouse_move({-150.0f, 105.0f});
     }
 
-    void IsometricCameraController::update(double dt, const KeyboardState& keyboard)
+    void IsometricCameraController::update(const State& state)
     {
-        if (keyboard.s_is_pressed) this->move_forwards(-dt * this->config.speed);
-        if (keyboard.a_is_pressed) this->move_sideways(-dt * this->config.speed);
-        if (keyboard.space_is_pressed) this->move_up(dt * this->config.speed);
-        if (keyboard.shift_is_pressed) this->move_up(-dt * this->config.speed);
+        if (state.keyboard.a_is_pressed) this->move_sideways(-state.time.delta * this->config.speed);
+        if (state.keyboard.d_is_pressed) this->move_sideways(state.time.delta * this->config.speed);
+        if (state.keyboard.space_is_pressed) this->move_up(state.time.delta * this->config.speed);
+        if (state.keyboard.shift_is_pressed) this->move_up(-state.time.delta * this->config.speed);
+
+        if (state.mouse.cursor_is_disabled && state.mouse.delta_pos != glm::dvec2(0.0f)) this->on_mouse_move(state.mouse.delta_pos);
     }
 }  // namespace rb

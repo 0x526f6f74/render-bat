@@ -61,6 +61,6 @@ namespace rb
     public:
         using IsometricCamera::IsometricCamera;
 
-        void update(double dt, const KeyboardState& keyboard);
+        void update(const State& state);
     };
 }  // namespace rb

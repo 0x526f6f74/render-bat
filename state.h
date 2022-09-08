@@ -4,6 +4,14 @@
 
 namespace rb
 {
+    struct TimeState
+    {
+        double current;
+        double delta;
+
+        void update(const RealtimeWindow& window) noexcept;
+    };
+
     struct KeyboardState
     {
         bool w_is_pressed = false;
@@ -20,17 +28,17 @@ namespace rb
     {
         glm::dvec2 cursor_pos;
         glm::dvec2 delta_pos;
+        bool cursor_is_disabled = false;
 
         void update(const RealtimeWindow& window) noexcept;
     };
 
     struct State
     {
-        void update(const RealtimeWindow& window, double dt) noexcept;
+        void update(const RealtimeWindow& window) noexcept;
 
+        TimeState time;
         KeyboardState keyboard;
         MouseState mouse;
-    
-        double previous_frame_time;
     };
 }  // namespace rb

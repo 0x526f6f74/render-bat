@@ -2,6 +2,13 @@
 
 namespace rb
 {
+    void TimeState::update(const RealtimeWindow& window) noexcept
+    {
+        const auto current_frame_time = window.get_time();
+        this->delta = current_frame_time - this->current;
+        this->current = current_frame_time;
+    }
+
     void KeyboardState::update(const RealtimeWindow& window) noexcept
     {
         switch (window.get_key(GLFW_KEY_W))
@@ -43,8 +50,9 @@ namespace rb
         this->cursor_pos = current_pos;
     }
 
-    void State::update(const RealtimeWindow& window, double dt) noexcept
+    void State::update(const RealtimeWindow& window) noexcept
     {
+        this->time.update(window);
         this->keyboard.update(window);
         this->mouse.update(window);
     }
