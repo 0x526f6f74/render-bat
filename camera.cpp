@@ -81,4 +81,12 @@ namespace rb
     {
         this->on_mouse_move({-150.0f, 105.0f});
     }
+
+    void IsometricCameraController::update(double dt, const KeyboardState& keyboard)
+    {
+        if (keyboard.s_is_pressed) this->move_forwards(-dt * this->config.speed);
+        if (keyboard.a_is_pressed) this->move_sideways(-dt * this->config.speed);
+        if (keyboard.space_is_pressed) this->move_up(dt * this->config.speed);
+        if (keyboard.shift_is_pressed) this->move_up(-dt * this->config.speed);
+    }
 }  // namespace rb

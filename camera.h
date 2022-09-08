@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 
+#include "state.h"
+
 namespace rb
 {
     struct CameraConfig
@@ -52,5 +54,13 @@ namespace rb
     {
     public:
         IsometricCamera(const CameraConfig& config, const glm::vec4& frame) noexcept;
+    };
+
+    class IsometricCameraController : public IsometricCamera
+    {
+    public:
+        using IsometricCamera::IsometricCamera;
+
+        void update(double dt, const KeyboardState& keyboard);
     };
 }  // namespace rb
