@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "state.h"
+#include "window.h"
 
 namespace rb
 {
@@ -71,6 +71,6 @@ namespace rb
     public:
         using IsometricCamera::IsometricCamera;
 
-        void update(const State& state, double dt, bool cursor_is_disabled);
+        void update(const RealtimeWindowState& state);
     };
 }  // namespace rb

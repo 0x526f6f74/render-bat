@@ -94,13 +94,13 @@ namespace rb
         this->dirty_matrices = true;
     }
 
-    void IsometricCameraController::update(const State& state, double dt, bool cursor_is_disabled)
+    void IsometricCameraController::update(const RealtimeWindowState& state)
     {
-        if (state.keyboard.a_is_pressed) this->move_sideways(-dt * this->config.speed);
-        if (state.keyboard.d_is_pressed) this->move_sideways(dt * this->config.speed);
-        if (state.keyboard.space_is_pressed) this->move_up(dt * this->config.speed);
-        if (state.keyboard.shift_is_pressed) this->move_up(-dt * this->config.speed);
+        if (state.a_is_pressed) this->move_sideways(-state.dt * this->config.speed);
+        if (state.d_is_pressed) this->move_sideways(state.dt * this->config.speed);
+        if (state.space_is_pressed) this->move_up(state.dt * this->config.speed);
+        if (state.shift_is_pressed) this->move_up(-state.dt * this->config.speed);
 
-        if (cursor_is_disabled && state.mouse.delta_pos != glm::dvec2(0.0f)) this->on_mouse_move(state.mouse.delta_pos);
+        if (state.cursor_is_disabled && state.delta_pos != glm::dvec2(0.0f)) this->on_mouse_move(state.delta_pos);
     }
 }  // namespace rb

@@ -55,10 +55,11 @@ namespace rb
         this->make_opengl_context();
 
         glfwSwapInterval(static_cast<int>(this->config.vsync));
-        if (this->config.cursor_is_disabled) glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        if (this->state.cursor_is_disabled) glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetKeyCallback(this->window, this->config.key_callback);
         glfwSetMouseButtonCallback(this->window, this->config.mouse_button_callback);
         glfwSetScrollCallback(this->window, this->config.scroll_callback);
+        glfwSetWindowUserPointer(this->window, static_cast<void*>(&this->state));
     }
 
     bool RealtimeWindow::is_open() const
@@ -66,14 +67,9 @@ namespace rb
         return !glfwWindowShouldClose(this->window);
     }
 
-    double RealtimeWindow::get_time() const
+    const RealtimeWindowState& RealtimeWindow::get_state() const
     {
-        return this->time;
-    }
-
-    double RealtimeWindow::get_dt() const
-    {
-        return this->dt;
+        return this->state;
     }
 
     glm::dvec2 RealtimeWindow::get_cursor_pos() const
@@ -91,8 +87,43 @@ namespace rb
     void RealtimeWindow::update()
     {
         const auto current_time = glfwGetTime();
-        this->dt = current_time - this->time;
-        this->time = current_time;
+        this->state.dt = current_time - this->state.time;
+        this->state.time = current_time;
+
+        switch (glfwGetKey(this->window, GLFW_KEY_W))
+        {
+            case GLFW_PRESS: this->state.w_is_pressed = true; break;
+            case GLFW_RELEASE: this->state.w_is_pressed = false; break;
+        }
+        switch (glfwGetKey(this->window, GLFW_KEY_A))
+        {
+            case GLFW_PRESS: this->state.a_is_pressed = true; break;
+            case GLFW_RELEASE: this->state.a_is_pressed = false; break;
+        }
+        switch (glfwGetKey(this->window, GLFW_KEY_S))
+        {
+            case GLFW_PRESS: this->state.s_is_pressed = true; break;
+            case GLFW_RELEASE: this->state.s_is_pressed = false; break;
+        }
+        switch (glfwGetKey(this->window, GLFW_KEY_D))
+        {
+            case GLFW_PRESS: this->state.d_is_pressed = true; break;
+            case GLFW_RELEASE: this->state.d_is_pressed = false; break;
+        }
+        switch (glfwGetKey(this->window, GLFW_KEY_SPACE))
+        {
+            case GLFW_PRESS: this->state.space_is_pressed = true; break;
+            case GLFW_RELEASE: this->state.space_is_pressed = false; break;
+        }
+        switch (glfwGetKey(this->window, GLFW_KEY_LEFT_SHIFT))
+        {
+            case GLFW_PRESS: this->state.shift_is_pressed = true; break;
+            case GLFW_RELEASE: this->state.shift_is_pressed = false; break;
+        }
+
+        const auto current_cursor_pos = this->get_cursor_pos();
+        this->state.delta_pos = current_cursor_pos - this->state.cursor_pos;
+        this->state.cursor_pos = current_cursor_pos;
     }
 
     void RealtimeWindow::swap_buffers() const

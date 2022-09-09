@@ -20,7 +20,6 @@ namespace rb
         std::string title;
         glm::ivec2 size;
         bool vsync;
-        bool cursor_is_disabled;
         GLFWkeyfun key_callback;
         GLFWmousebuttonfun mouse_button_callback;
         GLFWscrollfun scroll_callback;
@@ -48,6 +47,24 @@ namespace rb
         const WindowConfig config;
     };
 
+    struct RealtimeWindowState
+    {
+        double time;
+        double dt;
+
+        bool w_is_pressed = false;
+        bool a_is_pressed = false;
+        bool s_is_pressed = false;
+        bool d_is_pressed = false;
+        bool space_is_pressed = false;
+        bool shift_is_pressed = false;
+
+        bool cursor_is_disabled = false;
+
+        glm::dvec2 cursor_pos;
+        glm::dvec2 delta_pos;
+    };
+
     class RealtimeWindow : public Window
     {
     public:
@@ -57,17 +74,14 @@ namespace rb
         glm::dvec2 get_cursor_pos() const;
         int get_key(int key) const;
 
-        double get_time() const;
-        double get_dt() const;
+        const RealtimeWindowState& get_state() const;
 
         void update();
         void swap_buffers() const;
 
     private:
         const RealtimeWindowConfig config;
-
-        double time = 0.0;
-        double dt = 0.01;
+        RealtimeWindowState state;
     };
 
     class OffscreenWindow : public Window

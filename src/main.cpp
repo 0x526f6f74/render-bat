@@ -14,7 +14,6 @@
 #include "cubemap.h"
 #include "offscreen.h"
 #include "shader.h"
-#include "state.h"
 #include "vertex.h"
 
 static constexpr int MAX_TEXTURE_SLOTS = 32;
@@ -35,10 +34,9 @@ static std::array<rb::index_t, NUM_INDICES> indices;
 static float zoom_level = 2.0f;
 
 #if RB_REAL_TIME
-static bool cursor_is_disabled = false;
-
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    bool& cursor_is_disabled = static_cast<rb::RealtimeWindowState*>(glfwGetWindowUserPointer(window))->cursor_is_disabled;
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS && cursor_is_disabled)
     {
         cursor_is_disabled = false;
@@ -50,6 +48,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+    bool& cursor_is_disabled = static_cast<rb::RealtimeWindowState*>(glfwGetWindowUserPointer(window))->cursor_is_disabled;
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !cursor_is_disabled)
     {
         cursor_is_disabled = true;
@@ -89,7 +88,7 @@ int main()
 
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
-    rb::RealtimeWindow window{{window_config, "Render Bat", {WIDTH, HEIGHT}, true, cursor_is_disabled, key_callback, mouse_button_callback, scroll_callback}};
+    rb::RealtimeWindow window{{window_config, "Render Bat", {WIDTH, HEIGHT}, true, key_callback, mouse_button_callback, scroll_callback}};
 #else
     const rb::OffscreenWindow window{rb::OffscreenWindowConfig(window_config)};
 #endif
@@ -124,13 +123,10 @@ int main()
         const rb::Cubemap bedrock_cubemap{{"../../assets/blocks/bedrock.png"}};
 
 #if RB_REAL_TIME
-        rb::State state{window};
-
         while (window.is_open())
         {
             window.update();
-            state.update(window);
-            camera.update(state, window.get_dt(), cursor_is_disabled);
+            camera.update(window.get_state());
             camera.set_zoom_level(zoom_level);
 #endif
 

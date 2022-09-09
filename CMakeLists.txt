@@ -21,8 +21,6 @@ add_executable(
     src/cubemap.h
     src/offscreen.cpp
     src/offscreen.h
-    src/state.cpp
-    src/state.h
     src/window.cpp
     src/window.h
     lib/glad/glad.h
