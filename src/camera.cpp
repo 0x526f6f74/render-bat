@@ -14,13 +14,13 @@ namespace rb
       , config(config)
     { }
 
-    void Camera::translate(const glm::vec3& v) noexcept
+    void Camera::translate(const glm::vec3& v)
     {
         this->position += v;
         this->dirty_matrices = true;
     }
 
-    void Camera::on_mouse_move(const glm::vec2& delta_pos) noexcept
+    void Camera::on_mouse_move(const glm::vec2& delta_pos)
     {
         this->yaw += delta_pos.x * this->config.mouse_sensivity;
         this->pitch -= delta_pos.y * this->config.mouse_sensivity;
@@ -34,55 +34,55 @@ namespace rb
         this->dirty_matrices = true;
     }
 
-    void Camera::refresh_matrices() noexcept
+    void Camera::refresh_matrices()
     {
         this->view_matrix = glm::lookAt(this->position, this->position + this->look_at, this->up);
         this->view_projection_matrix = this->projection_matrix * this->view_matrix;
         this->dirty_matrices = false;
     }
 
-    void Camera::move_forwards(float distance) noexcept
+    void Camera::move_forwards(float distance)
     {
         this->translate(glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * this->look_at) * distance);
     }
 
-    void Camera::move_sideways(float distance) noexcept
+    void Camera::move_sideways(float distance)
     {
         this->translate(glm::normalize(glm::cross(this->look_at, this->up)) * distance);
     }
 
-    void Camera::move_up(float distance) noexcept
+    void Camera::move_up(float distance)
     {
         this->translate(this->up * distance);
     }
 
-    const glm::mat4& Camera::get_view_projection_matrix() noexcept
+    const glm::mat4& Camera::get_view_projection_matrix()
     {
         if (dirty_matrices) this->refresh_matrices();
 
         return this->view_projection_matrix;
     }
 
-    const glm::mat4& Camera::get_view_matrix() noexcept
+    const glm::mat4& Camera::get_view_matrix()
     {
         if (dirty_matrices) this->refresh_matrices();
 
         return this->view_matrix;
     }
 
-    PerspectiveCamera::PerspectiveCamera(const CameraConfig& config) noexcept
+    PerspectiveCamera::PerspectiveCamera(const CameraConfig& config)
       : Camera(glm::perspective(config.fov / 2.0f, static_cast<float>(config.width) / config.height, 0.1f, 1000.0f), config)
     {
         this->on_mouse_move({0.0f, 0.0f});
     }
 
-    IsometricCamera::IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level) noexcept
+    IsometricCamera::IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level)
       : Camera(glm::ortho(-aspect_ratio * zoom_level, aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f), config), aspect_ratio(aspect_ratio)
     {
         this->on_mouse_move({-150.0f, 105.0f});
     }
 
-    void IsometricCamera::set_zoom_level(float zoom_level) noexcept
+    void IsometricCamera::set_zoom_level(float zoom_level)
     {
         this->projection_matrix = glm::ortho(-this->aspect_ratio * zoom_level, this->aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f);
         this->dirty_matrices = true;

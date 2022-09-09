@@ -19,20 +19,21 @@ namespace rb
     public:
         Camera(const glm::mat4& projection_matrix, const CameraConfig& config);
 
-        void translate(const glm::vec3& v) noexcept;
-        void on_mouse_move(const glm::vec2& delta_pos) noexcept;
+        void translate(const glm::vec3& v);
+        void on_mouse_move(const glm::vec2& delta_pos);
 
-        void move_forwards(float distance) noexcept;
-        void move_sideways(float distance) noexcept;
-        void move_up(float distance) noexcept;
+        void move_forwards(float distance);
+        void move_sideways(float distance);
+        void move_up(float distance);
 
-        const glm::mat4& get_view_projection_matrix() noexcept;
-        const glm::mat4& get_view_matrix() noexcept;
+        const glm::mat4& get_view_projection_matrix();
+        const glm::mat4& get_view_matrix();
 
     protected:
+        const CameraConfig config;
+
         glm::mat4 projection_matrix;
         bool dirty_matrices = false;
-        const CameraConfig config;
 
     private:
         glm::vec3 position;
@@ -42,21 +43,21 @@ namespace rb
         glm::mat4 view_projection_matrix;
         float yaw, pitch;
 
-        void refresh_matrices() noexcept;
+        void refresh_matrices();
     };
 
     class PerspectiveCamera : public Camera
     {
     public:
-        PerspectiveCamera(const CameraConfig& config) noexcept;
+        PerspectiveCamera(const CameraConfig& config);
     };
 
     class IsometricCamera : public Camera
     {
     public:
-        IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level) noexcept;
+        IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level);
 
-        void set_zoom_level(float zoom_level) noexcept;
+        void set_zoom_level(float zoom_level);
 
     private:
         float aspect_ratio;

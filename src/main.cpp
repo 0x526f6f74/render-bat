@@ -28,7 +28,7 @@ static constexpr int NUM_VERTICES = NUM_BLOCKS * 8;
 static constexpr int NUM_INDICES = NUM_BLOCKS * 36;
 
 static constexpr std::array<rb::index_t, 36> BLOCK_INDICES = {0, 3, 1, 3, 2, 1, 1, 2, 5, 2, 6, 5, 5, 6, 4, 6, 7, 4,
-                                                          4, 7, 0, 7, 3, 0, 3, 7, 2, 7, 6, 2, 4, 0, 5, 0, 1, 5};
+                                                              4, 7, 0, 7, 3, 0, 3, 7, 2, 7, 6, 2, 4, 0, 5, 0, 1, 5};
 
 static std::array<rb::Vertex, NUM_VERTICES> vertices;
 static std::array<rb::index_t, NUM_INDICES> indices;
@@ -152,7 +152,7 @@ int main()
             glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_SHORT, nullptr);
 
 #if RB_REAL_TIME
-            window.update();
+            window.swap_buffers();
         }
 #else
         rb::write_color_buffer_to_png_file("../../output.png", WIDTH, HEIGHT);

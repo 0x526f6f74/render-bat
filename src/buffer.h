@@ -7,9 +7,9 @@ namespace rb
     class VertexBuffer
     {
     public:
-        VertexBuffer(GLsizeiptr size, const void* data) noexcept;
+        VertexBuffer(GLsizeiptr size, const void* data);
 
-        void bind() const noexcept;
+        void bind() const;
 
     private:
         GLuint vao, vbo;
@@ -18,9 +18,9 @@ namespace rb
     class IndexBuffer
     {
     public:
-        IndexBuffer(GLsizeiptr size, const void* data) noexcept;
+        IndexBuffer(GLsizeiptr size, const void* data);
 
-        void bind() const noexcept;
+        void bind() const;
 
     private:
         GLuint ibo;

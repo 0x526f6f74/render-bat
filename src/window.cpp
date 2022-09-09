@@ -6,10 +6,10 @@
 
 namespace rb
 {
-    Window::Window(const WindowConfig& config) noexcept : config(config)
+    Window::Window(const WindowConfig& config) : config(config)
     { }
 
-    Window::~Window() noexcept
+    Window::~Window()
     {
         glfwDestroyWindow(this->window);
         glfwTerminate();
@@ -61,32 +61,35 @@ namespace rb
         glfwSetScrollCallback(this->window, this->config.scroll_callback);
     }
 
-    glm::dvec2 RealtimeWindow::get_cursor_pos() const noexcept
+    bool RealtimeWindow::is_open() const
+    {
+        return !glfwWindowShouldClose(this->window);
+    }
+
+    double RealtimeWindow::get_time() const
+    {
+        return glfwGetTime();
+    }
+
+    glm::dvec2 RealtimeWindow::get_cursor_pos() const
     {
         glm::dvec2 cursor_pos;
         glfwGetCursorPos(this->window, &cursor_pos.x, &cursor_pos.y);
         return cursor_pos;
     }
 
-    double RealtimeWindow::get_time() const noexcept
+    int RealtimeWindow::get_key(int key) const
     {
-        return glfwGetTime();
+        return glfwGetKey(this->window, key);
     }
 
-    bool RealtimeWindow::is_open() const noexcept
-    {
-        return !glfwWindowShouldClose(this->window);
-    }
+    void RealtimeWindow::update()
+    { }
 
-    void RealtimeWindow::update() const noexcept
+    void RealtimeWindow::swap_buffers() const
     {
         glfwSwapBuffers(this->window);
         glfwPollEvents();
-    }
-
-    int RealtimeWindow::get_key(int key) const noexcept
-    {
-        return glfwGetKey(this->window, key);
     }
 
     OffscreenWindow::OffscreenWindow(const OffscreenWindowConfig& config) : Window(config.window_config), config(config)

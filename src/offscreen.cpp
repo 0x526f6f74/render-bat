@@ -7,7 +7,7 @@
 
 namespace rb
 {
-    Framebuffer::Framebuffer(int width, int height) noexcept
+    Framebuffer::Framebuffer(int width, int height)
     {
         glGenFramebuffers(1, &this->fbo);
         glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);

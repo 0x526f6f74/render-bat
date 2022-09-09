@@ -34,8 +34,8 @@ namespace rb
     class Window
     {
     public:
-        Window(const WindowConfig& config) noexcept;
-        virtual ~Window() noexcept;
+        Window(const WindowConfig& config);
+        virtual ~Window();
 
     protected:
         void initialize_glfw() const;
@@ -53,14 +53,19 @@ namespace rb
     public:
         RealtimeWindow(const RealtimeWindowConfig& config);
 
-        glm::dvec2 get_cursor_pos() const noexcept;
-        double get_time() const noexcept;
-        bool is_open() const noexcept;
-        void update() const noexcept;
-        int get_key(int key) const noexcept;
+        bool is_open() const;
+        double get_time() const;
+        glm::dvec2 get_cursor_pos() const;
+        int get_key(int key) const;
+
+        void update();
+        void swap_buffers() const;
 
     private:
         const RealtimeWindowConfig config;
+
+        double time;
+        double dt;
     };
 
     class OffscreenWindow : public Window

@@ -49,12 +49,12 @@ namespace rb
         glDeleteProgram(this->id);
     }
 
-    void Shader::bind() const noexcept
+    void Shader::bind() const
     {
         glUseProgram(this->id);
     }
 
-    void Shader::unbind() const noexcept
+    void Shader::unbind() const
     {
         glUseProgram(0);
     }
@@ -194,17 +194,17 @@ namespace rb
         }
     }
 
-    void Shader::set_uniform_matrix4fv(const char* name, const glm::mat4& value) const noexcept
+    void Shader::set_uniform_matrix4fv(const char* name, const glm::mat4& value) const
     {
         glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, GL_FALSE, &value[0][0]);
     }
 
-    void Shader::set_uniform_1i(const char* name, int value) const noexcept
+    void Shader::set_uniform_1i(const char* name, int value) const
     {
         glUniform1i(glGetUniformLocation(this->id, name), value);
     }
 
-    void Shader::set_uniform_1iv(const char* name, GLsizei count, const GLint* value) const noexcept
+    void Shader::set_uniform_1iv(const char* name, GLsizei count, const GLint* value) const
     {
         glUniform1iv(glGetUniformLocation(this->id, name), count, value);
     }

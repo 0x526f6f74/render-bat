@@ -9,7 +9,7 @@ namespace rb
     class Framebuffer
     {
     public:
-        Framebuffer(int width, int height) noexcept;
+        Framebuffer(int width, int height);
         ~Framebuffer();
 
     private:
