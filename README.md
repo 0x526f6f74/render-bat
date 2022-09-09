@@ -23,6 +23,7 @@
     - [Cloning the repository](#cloning-the-repository)
     - [Building](#building)
 - [Usage](#usage)
+- [Credits](#credits)
 - [License](#license)
 - [About the author](#about-the-author)
 
@@ -62,6 +63,12 @@ A file called `RenderBat` (or `RenderBat.exe`) should appear in the `build` dire
 Once structure deserialization is implemented, this will hopefully change.
 
 As *Render Bat* is still in a very early development phase, it can only render a simple debug structure to either a Window or a [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) file.
+
+## Credits
+- [GLFW](https://www.glfw.org) *(window and OpenGL context creation)*
+- [Glad](https://github.com/Dav1dde/glad) *(OpenGL loader)*
+- [GLM](https://github.com/g-truc/glm) *(Mathematics)*
+- [stb](https://github.com/nothings/stb) *(image loading)*
 
 ## License
 
