@@ -8,10 +8,10 @@ namespace rb
 {
     struct CameraConfig
     {
+        CameraConfig() = default;
         CameraConfig(int width, int height);
 
-        int width;
-        int height;
+        int width, height;
 
         float fov;
         float speed;
@@ -39,7 +39,7 @@ namespace rb
         const CameraConfig config;
 
         glm::mat4 projection_matrix;
-        bool dirty_matrices = false;
+        bool dirty_matrices;
 
     private:
         glm::vec3 position;

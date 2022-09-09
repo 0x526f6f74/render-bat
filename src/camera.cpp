@@ -9,13 +9,14 @@ namespace rb
     { }
 
     Camera::Camera(const glm::mat4& projection_matrix, const CameraConfig& config)
-      : projection_matrix(projection_matrix)
-      , view_matrix(glm::mat4(1.0f))
+      : config(config)
+      , projection_matrix(projection_matrix)
+      , dirty_matrices(false)
       , position(glm::vec3(0.0f))
       , up(glm::vec3(0.0f, 1.0f, 0.0f))
+      , view_matrix(glm::mat4(1.0f))
       , yaw(-90.0f)
       , pitch(0.0f)
-      , config(config)
     { }
 
     void Camera::translate(const glm::vec3& v)
