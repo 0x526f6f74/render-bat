@@ -40,7 +40,8 @@ namespace rb
         const auto sources = this->read_from_file(filepath);
         this->compile(sources);
 
-        for (const auto& [stage, source] : sources) delete[] source;
+        for (const auto& [stage, source] : sources)
+            delete[] source;
     }
 
     Shader::~Shader()
@@ -182,7 +183,8 @@ namespace rb
 
             glDeleteProgram(this->id);
 
-            for (i = 0; i < num_shaders; ++i) glDeleteShader(shader_ids[i]);
+            for (i = 0; i < num_shaders; ++i)
+                glDeleteShader(shader_ids[i]);
         }
 
         for (i = 0; i < num_shaders; ++i)
