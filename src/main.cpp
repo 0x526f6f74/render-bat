@@ -89,8 +89,7 @@ int main()
 
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
-    const rb::RealtimeWindow window{
-        {window_config, "Render Bat", {WIDTH, HEIGHT}, true, cursor_is_disabled, key_callback, mouse_button_callback, scroll_callback}};
+    rb::RealtimeWindow window{{window_config, "Render Bat", {WIDTH, HEIGHT}, true, cursor_is_disabled, key_callback, mouse_button_callback, scroll_callback}};
 #else
     const rb::OffscreenWindow window{rb::OffscreenWindowConfig(window_config)};
 #endif
@@ -129,8 +128,9 @@ int main()
 
         while (window.is_open())
         {
+            window.update();
             state.update(window);
-            camera.update(state, cursor_is_disabled);
+            camera.update(state, window.get_dt(), cursor_is_disabled);
             camera.set_zoom_level(zoom_level);
 #endif
 

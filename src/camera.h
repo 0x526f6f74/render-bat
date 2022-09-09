@@ -71,6 +71,6 @@ namespace rb
     public:
         using IsometricCamera::IsometricCamera;
 
-        void update(const State& state, bool cursor_is_disabled);
+        void update(const State& state, double dt, bool cursor_is_disabled);
     };
 }  // namespace rb

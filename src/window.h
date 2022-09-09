@@ -54,9 +54,11 @@ namespace rb
         RealtimeWindow(const RealtimeWindowConfig& config);
 
         bool is_open() const;
-        double get_time() const;
         glm::dvec2 get_cursor_pos() const;
         int get_key(int key) const;
+
+        double get_time() const;
+        double get_dt() const;
 
         void update();
         void swap_buffers() const;
@@ -64,8 +66,8 @@ namespace rb
     private:
         const RealtimeWindowConfig config;
 
-        double time;
-        double dt;
+        double time = 0.0;
+        double dt = 0.01;
     };
 
     class OffscreenWindow : public Window

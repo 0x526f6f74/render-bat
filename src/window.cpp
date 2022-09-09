@@ -68,7 +68,12 @@ namespace rb
 
     double RealtimeWindow::get_time() const
     {
-        return glfwGetTime();
+        return this->time;
+    }
+
+    double RealtimeWindow::get_dt() const
+    {
+        return this->dt;
     }
 
     glm::dvec2 RealtimeWindow::get_cursor_pos() const
@@ -84,7 +89,11 @@ namespace rb
     }
 
     void RealtimeWindow::update()
-    { }
+    {
+        const auto current_time = glfwGetTime();
+        this->dt = current_time - this->time;
+        this->time = current_time;
+    }
 
     void RealtimeWindow::swap_buffers() const
     {

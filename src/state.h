@@ -4,14 +4,6 @@
 
 namespace rb
 {
-    struct TimeState
-    {
-        double current;
-        double delta;
-
-        void update(const RealtimeWindow& window);
-    };
-
     struct KeyboardState
     {
         bool w_is_pressed = false;
@@ -38,7 +30,6 @@ namespace rb
 
         void update(const RealtimeWindow& window);
 
-        TimeState time;
         KeyboardState keyboard;
         MouseState mouse;
     };
