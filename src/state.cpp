@@ -50,6 +50,12 @@ namespace rb
         this->cursor_pos = current_pos;
     }
 
+    State::State(const RealtimeWindow& window) noexcept
+    {
+        this->mouse.cursor_pos = window.get_cursor_pos();
+        this->time.current = window.get_time();
+    }
+
     void State::update(const RealtimeWindow& window) noexcept
     {
         this->time.update(window);

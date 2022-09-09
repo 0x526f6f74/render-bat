@@ -55,9 +55,10 @@ namespace rb
         this->make_opengl_context();
 
         glfwSwapInterval(static_cast<int>(this->config.vsync));
-        if (this->config.cursor_is_disabled) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetKeyCallback(window, this->config.key_callback);
-        glfwSetMouseButtonCallback(window, this->config.mouse_button_callback);
+        if (this->config.cursor_is_disabled) glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwSetKeyCallback(this->window, this->config.key_callback);
+        glfwSetMouseButtonCallback(this->window, this->config.mouse_button_callback);
+        glfwSetScrollCallback(this->window, this->config.scroll_callback);
     }
 
     glm::dvec2 RealtimeWindow::get_cursor_pos() const noexcept
@@ -72,9 +73,9 @@ namespace rb
         return glfwGetTime();
     }
 
-    bool RealtimeWindow::should_close() const noexcept
+    bool RealtimeWindow::is_open() const noexcept
     {
-        return glfwWindowShouldClose(this->window);
+        return !glfwWindowShouldClose(this->window);
     }
 
     void RealtimeWindow::update() const noexcept

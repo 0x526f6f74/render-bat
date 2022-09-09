@@ -9,7 +9,7 @@ namespace rb
     struct CameraConfig
     {
         float fov;
-        float width, height;
+        int width, height;
         float speed = 3.0f;
         float mouse_sensivity = 0.3f;
     };
@@ -19,27 +19,28 @@ namespace rb
     public:
         Camera(const glm::mat4& projection_matrix, const CameraConfig& config);
 
-        virtual void translate(const glm::vec3& v) noexcept;
-        virtual void on_mouse_move(const glm::vec2& delta_pos) noexcept;
+        void translate(const glm::vec3& v) noexcept;
+        void on_mouse_move(const glm::vec2& delta_pos) noexcept;
 
-        virtual void move_forwards(float distance) noexcept;
-        virtual void move_sideways(float distance) noexcept;
-        virtual void move_up(float distance) noexcept;
+        void move_forwards(float distance) noexcept;
+        void move_sideways(float distance) noexcept;
+        void move_up(float distance) noexcept;
 
-        virtual const glm::mat4& get_view_projection_matrix() noexcept;
-        virtual const glm::mat4& get_view_matrix() noexcept;
+        const glm::mat4& get_view_projection_matrix() noexcept;
+        const glm::mat4& get_view_matrix() noexcept;
 
     protected:
+        glm::mat4 projection_matrix;
+        bool dirty_matrices = false;
+        const CameraConfig config;
+
+    private:
         glm::vec3 position;
         glm::vec3 look_at;
         glm::vec3 up;
-        glm::mat4 projection_matrix;
         glm::mat4 view_matrix;
         glm::mat4 view_projection_matrix;
-        const CameraConfig config;
-
         float yaw, pitch;
-        bool dirty_matrices = false;
 
         void refresh_matrices() noexcept;
     };
@@ -53,7 +54,12 @@ namespace rb
     class IsometricCamera : public Camera
     {
     public:
-        IsometricCamera(const CameraConfig& config, const glm::vec4& frame) noexcept;
+        IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level) noexcept;
+
+        void set_zoom_level(float zoom_level) noexcept;
+
+    private:
+        float aspect_ratio;
     };
 
     class IsometricCameraController : public IsometricCamera
@@ -61,6 +67,6 @@ namespace rb
     public:
         using IsometricCamera::IsometricCamera;
 
-        void update(const State& state);
+        void update(const State& state, bool cursor_is_disabled);
     };
 }  // namespace rb

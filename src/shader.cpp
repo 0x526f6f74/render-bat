@@ -66,7 +66,7 @@ namespace rb
 
         if (!file)
         {
-            std::cerr << "shader not found error: " << filepath << '\n';
+            std::cerr << "Shader not found error: " << filepath << '\n';
             return sources;
         }
 
@@ -112,7 +112,7 @@ namespace rb
 
         if (file == nullptr)
         {
-            std::cerr << "inclusion shader not found error: " << filepath << '\n';
+            std::cerr << "Inclusion shader not found error: " << filepath << '\n';
             return;
         }
 
@@ -156,7 +156,7 @@ namespace rb
 
                 std::vector<GLchar> info_log(info_log_length);
                 glGetShaderInfoLog(shader_id, info_log_length, &info_log_length, info_log.data());
-                std::cerr << "shader compilation error:\n" << info_log.data();
+                std::cerr << "Shader compilation error:\n" << info_log.data();
                 glDeleteShader(shader_id);
 
                 break;
@@ -178,7 +178,7 @@ namespace rb
 
             std::vector<GLchar> info_log;
             glGetProgramInfoLog(this->id, info_log_length, &info_log_length, info_log.data());
-            std::cerr << "shader linking error:\n" << info_log.data();
+            std::cerr << "Shader linking error:\n" << info_log.data();
 
             glDeleteProgram(this->id);
 

@@ -71,24 +71,30 @@ namespace rb
     }
 
     PerspectiveCamera::PerspectiveCamera(const CameraConfig& config) noexcept
-      : Camera(glm::perspective(config.fov / 2.0f, config.width / config.height, 0.1f, 1000.0f), config)
+      : Camera(glm::perspective(config.fov / 2.0f, static_cast<float>(config.width) / config.height, 0.1f, 1000.0f), config)
     {
         this->on_mouse_move({0.0f, 0.0f});
     }
 
-    IsometricCamera::IsometricCamera(const CameraConfig& config, const glm::vec4& frame) noexcept
-      : Camera(glm::ortho(frame.x, frame.y, frame.z, frame.w, -10.0f, 100.0f), config)
+    IsometricCamera::IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level) noexcept
+      : Camera(glm::ortho(-aspect_ratio * zoom_level, aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f), config), aspect_ratio(aspect_ratio)
     {
         this->on_mouse_move({-150.0f, 105.0f});
     }
 
-    void IsometricCameraController::update(const State& state)
+    void IsometricCamera::set_zoom_level(float zoom_level) noexcept
+    {
+        this->projection_matrix = glm::ortho(-this->aspect_ratio * zoom_level, this->aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f);
+        this->dirty_matrices = true;
+    }
+
+    void IsometricCameraController::update(const State& state, bool cursor_is_disabled)
     {
         if (state.keyboard.a_is_pressed) this->move_sideways(-state.time.delta * this->config.speed);
         if (state.keyboard.d_is_pressed) this->move_sideways(state.time.delta * this->config.speed);
         if (state.keyboard.space_is_pressed) this->move_up(state.time.delta * this->config.speed);
         if (state.keyboard.shift_is_pressed) this->move_up(-state.time.delta * this->config.speed);
 
-        if (state.mouse.cursor_is_disabled && state.mouse.delta_pos != glm::dvec2(0.0f)) this->on_mouse_move(state.mouse.delta_pos);
+        if (cursor_is_disabled && state.mouse.delta_pos != glm::dvec2(0.0f)) this->on_mouse_move(state.mouse.delta_pos);
     }
 }  // namespace rb

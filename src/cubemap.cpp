@@ -46,7 +46,7 @@ namespace rb
 
         if (data == nullptr)
         {
-            std::cerr << "failed to load cubemap face texture: file \"" << texture_path << "\" was not found\n";
+            std::cerr << "Failed to load cubemap face texture: file \"" << texture_path << "\" was not found\n";
             stbi_image_free(data);
             return;
         }
@@ -68,7 +68,7 @@ namespace rb
 
         if (!(internal_format & data_format))
         {
-            std::cerr << "failed to load cubemap face texture: unknown internal/data format\n";
+            std::cerr << "Failed to load cubemap face texture: unknown internal/data format\n";
             stbi_image_free(data);
             return;
         }

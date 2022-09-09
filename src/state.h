@@ -28,13 +28,14 @@ namespace rb
     {
         glm::dvec2 cursor_pos;
         glm::dvec2 delta_pos;
-        bool cursor_is_disabled = false;
 
         void update(const RealtimeWindow& window) noexcept;
     };
 
     struct State
     {
+        State(const RealtimeWindow& window) noexcept;
+
         void update(const RealtimeWindow& window) noexcept;
 
         TimeState time;

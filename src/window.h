@@ -23,6 +23,7 @@ namespace rb
         bool cursor_is_disabled;
         GLFWkeyfun key_callback;
         GLFWmousebuttonfun mouse_button_callback;
+        GLFWscrollfun scroll_callback;
     };
 
     struct OffscreenWindowConfig
@@ -54,7 +55,7 @@ namespace rb
 
         glm::dvec2 get_cursor_pos() const noexcept;
         double get_time() const noexcept;
-        bool should_close() const noexcept;
+        bool is_open() const noexcept;
         void update() const noexcept;
         int get_key(int key) const noexcept;
 
