@@ -15,7 +15,7 @@
 
 > NOTE: *Render Bat* is still in a very early development phase and as such most features have not been implemented yet.
 
-*Render Bat* is a renderer for [Minecraft Bedrock](https://minecraft.fandom.com/wiki/Bedrock_Edition) structures using [OpenGL](https://www.opengl.org/) in [C++](https://en.wikipedia.org/wiki/C%2B%2B).
+*Render Bat* is a renderer for [Minecraft Bedrock](https://minecraft.fandom.com/wiki/Bedrock_Edition) structures using [OpenGL](https://www.opengl.org) in [C++](https://en.wikipedia.org/wiki/C%2B%2B).
 
 ## Table of Contents:
 
@@ -23,6 +23,7 @@
     - [Cloning the repository](#cloning-the-repository)
     - [Building](#building)
 - [Usage](#usage)
+- [License](#license)
 - [About the author](#about-the-author)
 
 ## Installation
@@ -41,7 +42,7 @@ git clone --recursive https://github.com/0x526f6f74/render-bat
 
 ### Building
 
-*Render Bat* uses [CMake](https://cmake.org/) as its build system. You can build the project like this:
+*Render Bat* uses [CMake](https://cmake.org) as its build system. You can build the project like this:
 
 ```sh
 cd path/to/render-bat
@@ -61,6 +62,10 @@ A file called `RenderBat` (or `RenderBat.exe`) should appear in the `build` dire
 Once structure deserialization is implemented, this will hopefully change.
 
 As *Render Bat* is still in a very early development phase, it can only render a simple debug structure to either a Window or a [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) file.
+
+## License
+
+This project is licensed under the [MIT license](https://choosealicense.com/licenses/mit).
 
 ## About the author
 

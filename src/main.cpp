@@ -1,5 +1,5 @@
 /**
- * Author Root (GitHub: 0x526f6f74; Discord: stdio.h#5797)
+ * Author: Root (GitHub: 0x526f6f74; Discord: stdio.h#5797)
  **/
 
 #define RB_REAL_TIME 1
@@ -21,19 +21,18 @@ static constexpr int MAX_TEXTURE_SLOTS = 32;
 
 static constexpr int WIDTH = 1920;
 static constexpr int HEIGHT = 1080;
-
-static float zoom_level = 2.0f;
 static constexpr float ASPECT_RATIO = static_cast<float>(WIDTH) / HEIGHT;
 
 static constexpr int NUM_BLOCKS = 2;
 static constexpr int NUM_VERTICES = NUM_BLOCKS * 8;
 static constexpr int NUM_INDICES = NUM_BLOCKS * 36;
 
-static const std::array<rb::index_t, 36> BLOCK_INDICES = {0, 3, 1, 3, 2, 1, 1, 2, 5, 2, 6, 5, 5, 6, 4, 6, 7, 4,
+static constexpr std::array<rb::index_t, 36> BLOCK_INDICES = {0, 3, 1, 3, 2, 1, 1, 2, 5, 2, 6, 5, 5, 6, 4, 6, 7, 4,
                                                           4, 7, 0, 7, 3, 0, 3, 7, 2, 7, 6, 2, 4, 0, 5, 0, 1, 5};
 
 static std::array<rb::Vertex, NUM_VERTICES> vertices;
 static std::array<rb::index_t, NUM_INDICES> indices;
+static float zoom_level = 2.0f;
 
 #if RB_REAL_TIME
 static bool cursor_is_disabled = false;
