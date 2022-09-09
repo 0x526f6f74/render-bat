@@ -111,8 +111,8 @@ int main()
         const rb::VertexBuffer vao{sizeof(vertices), static_cast<const void*>(vertices.data())};
         const rb::IndexBuffer ibo{sizeof(indices), static_cast<const void*>(indices.data())};
         const rb::Shader shader{"../shaders/cubemap.glsl"};
-        const rb::CameraConfig camera_config{90.0f, WIDTH, HEIGHT};
-        rb::IsometricCameraController camera{camera_config, ASPECT_RATIO, zoom_level};
+        const rb::CameraConfig camera_config{WIDTH, HEIGHT};
+        rb::IsometricCameraController camera{camera_config, zoom_level};
 
         const rb::Cubemap grass_cubemap{{
             "../../assets/blocks/grass_side_carried.png",

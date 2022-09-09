@@ -8,10 +8,16 @@ namespace rb
 {
     struct CameraConfig
     {
+        CameraConfig(int width, int height);
+
+        int width;
+        int height;
+
         float fov;
-        int width, height;
-        float speed = 3.0f;
-        float mouse_sensivity = 0.3f;
+        float speed;
+        float mouse_sensivity;
+
+        float aspect_ratio;
     };
 
     class Camera
@@ -55,12 +61,9 @@ namespace rb
     class IsometricCamera : public Camera
     {
     public:
-        IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level);
+        IsometricCamera(const CameraConfig& config, float zoom_level);
 
         void set_zoom_level(float zoom_level);
-
-    private:
-        float aspect_ratio;
     };
 
     class IsometricCameraController : public IsometricCamera

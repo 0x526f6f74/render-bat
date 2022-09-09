@@ -4,6 +4,10 @@
 
 namespace rb
 {
+    CameraConfig::CameraConfig(int width, int height)
+      : width(width), height(height), fov(90.0f), speed(3.0f), mouse_sensivity(0.3f), aspect_ratio(static_cast<float>(width) / height)
+    { }
+
     Camera::Camera(const glm::mat4& projection_matrix, const CameraConfig& config)
       : projection_matrix(projection_matrix)
       , view_matrix(glm::mat4(1.0f))
@@ -76,15 +80,16 @@ namespace rb
         this->on_mouse_move({0.0f, 0.0f});
     }
 
-    IsometricCamera::IsometricCamera(const CameraConfig& config, float aspect_ratio, float zoom_level)
-      : Camera(glm::ortho(-aspect_ratio * zoom_level, aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f), config), aspect_ratio(aspect_ratio)
+    IsometricCamera::IsometricCamera(const CameraConfig& config, float zoom_level)
+      : Camera(glm::ortho(-config.aspect_ratio * zoom_level, config.aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f), config)
     {
         this->on_mouse_move({-150.0f, 105.0f});
     }
 
     void IsometricCamera::set_zoom_level(float zoom_level)
     {
-        this->projection_matrix = glm::ortho(-this->aspect_ratio * zoom_level, this->aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f);
+        this->projection_matrix =
+            glm::ortho(-this->config.aspect_ratio * zoom_level, this->config.aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f);
         this->dirty_matrices = true;
     }
 
