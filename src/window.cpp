@@ -44,86 +44,80 @@ namespace rb
         gladLoadGL();
     }
 
-    RealtimeWindow::RealtimeWindow(const RealtimeWindowConfig& config) : Window(config.window_config), config(config)
+    RealtimeWindow::RealtimeWindow(const RealtimeWindowConfig& config) : Window(config.window_config), state({config})
     {
         this->initialize_glfw();
 
-        this->window = glfwCreateWindow(this->config.size.x, this->config.size.y, this->config.title.c_str(), nullptr, nullptr);
+        this->window = glfwCreateWindow(this->state.config.size.x, this->state.config.size.y, this->state.config.title.c_str(), nullptr, nullptr);
 
         this->check_if_window_creation_was_successful();
 
         this->make_opengl_context();
 
-        glfwSwapInterval(static_cast<int>(this->config.vsync));
+        glfwSetWindowUserPointer(this->window, reinterpret_cast<void*>(this));
+        glfwSwapInterval(static_cast<int>(this->state.config.vsync));
         if (this->state.cursor_is_disabled) glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetKeyCallback(this->window, this->config.key_callback);
-        glfwSetMouseButtonCallback(this->window, this->config.mouse_button_callback);
-        glfwSetScrollCallback(this->window, this->config.scroll_callback);
-        glfwSetWindowUserPointer(this->window, static_cast<void*>(&this->state));
+
+        glfwSetKeyCallback(
+            this->window,
+            [](GLFWwindow* window, int key, int scancode, int action, int mods)
+            {
+                RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+                auto& state = self.get_state();
+                if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS && state.cursor_is_disabled)
+                {
+                    state.cursor_is_disabled = false;
+                    self.set_input_mode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                }
+                else if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
+                    self.close();
+                switch (key)
+                {
+                    case GLFW_KEY_W: self.state.w_is_pressed = action; break;
+                    case GLFW_KEY_A: self.state.a_is_pressed = action; break;
+                    case GLFW_KEY_S: self.state.s_is_pressed = action; break;
+                    case GLFW_KEY_D: self.state.d_is_pressed = action; break;
+                    case GLFW_KEY_LEFT_SHIFT: self.state.shift_is_pressed = action; break;
+                    case GLFW_KEY_SPACE: self.state.space_is_pressed = action; break;
+                }
+            }
+        );
+        glfwSetMouseButtonCallback(
+            this->window,
+            [](GLFWwindow* window, int button, int action, int mods)
+            {
+                RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+                auto& state = self.get_state();
+                if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !state.cursor_is_disabled)
+                {
+                    state.cursor_is_disabled = true;
+                    self.set_input_mode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                }
+            }
+        );
+        glfwSetScrollCallback(
+            this->window,
+            [](GLFWwindow* window, double xoffset, double yoffset)
+            {
+                RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+                self.get_state().config.scroll_callback(self, xoffset, yoffset);
+            }
+        );
+        glfwSetCursorPosCallback(
+            this->window,
+            [](GLFWwindow* window, double xpos, double ypos)
+            {
+                RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+                self.get_state().config.cursor_pos_callback(self, xpos, ypos);
+            }
+        );
     }
 
-    bool RealtimeWindow::is_open() const
-    {
-        return !glfwWindowShouldClose(this->window);
-    }
-
-    const RealtimeWindowState& RealtimeWindow::get_state() const
-    {
-        return this->state;
-    }
-
-    glm::dvec2 RealtimeWindow::get_cursor_pos() const
-    {
-        glm::dvec2 cursor_pos;
-        glfwGetCursorPos(this->window, &cursor_pos.x, &cursor_pos.y);
-        return cursor_pos;
-    }
-
-    int RealtimeWindow::get_key(int key) const
-    {
-        return glfwGetKey(this->window, key);
-    }
-
-    void RealtimeWindow::update()
+    void RealtimeWindow::update_time()
     {
         const auto current_time = glfwGetTime();
         this->state.dt = current_time - this->state.time;
         this->state.time = current_time;
-
-        switch (glfwGetKey(this->window, GLFW_KEY_W))
-        {
-            case GLFW_PRESS: this->state.w_is_pressed = true; break;
-            case GLFW_RELEASE: this->state.w_is_pressed = false; break;
-        }
-        switch (glfwGetKey(this->window, GLFW_KEY_A))
-        {
-            case GLFW_PRESS: this->state.a_is_pressed = true; break;
-            case GLFW_RELEASE: this->state.a_is_pressed = false; break;
-        }
-        switch (glfwGetKey(this->window, GLFW_KEY_S))
-        {
-            case GLFW_PRESS: this->state.s_is_pressed = true; break;
-            case GLFW_RELEASE: this->state.s_is_pressed = false; break;
-        }
-        switch (glfwGetKey(this->window, GLFW_KEY_D))
-        {
-            case GLFW_PRESS: this->state.d_is_pressed = true; break;
-            case GLFW_RELEASE: this->state.d_is_pressed = false; break;
-        }
-        switch (glfwGetKey(this->window, GLFW_KEY_SPACE))
-        {
-            case GLFW_PRESS: this->state.space_is_pressed = true; break;
-            case GLFW_RELEASE: this->state.space_is_pressed = false; break;
-        }
-        switch (glfwGetKey(this->window, GLFW_KEY_LEFT_SHIFT))
-        {
-            case GLFW_PRESS: this->state.shift_is_pressed = true; break;
-            case GLFW_RELEASE: this->state.shift_is_pressed = false; break;
-        }
-
-        const auto current_cursor_pos = this->get_cursor_pos();
-        this->state.delta_pos = current_cursor_pos - this->state.cursor_pos;
-        this->state.cursor_pos = current_cursor_pos;
     }
 
     void RealtimeWindow::swap_buffers() const
@@ -132,7 +126,42 @@ namespace rb
         glfwPollEvents();
     }
 
-    OffscreenWindow::OffscreenWindow(const OffscreenWindowConfig& config) : Window(config.window_config), config(config)
+    const RealtimeWindowState& RealtimeWindow::get_state() const
+    {
+        return this->state;
+    }
+
+    RealtimeWindowState& RealtimeWindow::get_state()
+    {
+        return this->state;
+    }
+
+    bool RealtimeWindow::is_open() const
+    {
+        return !glfwWindowShouldClose(this->window);
+    }
+
+    void RealtimeWindow::close() const
+    {
+        glfwSetWindowShouldClose(this->window, GLFW_TRUE);
+    }
+
+    void RealtimeWindow::set_input_mode(int mode, int value) const
+    {
+        glfwSetInputMode(this->window, mode, value);
+    }
+
+    const glm::dvec2& RealtimeWindow::get_cursor_pos() const
+    {
+        return this->state.cursor_pos;
+    }
+
+    int RealtimeWindow::get_key(int key) const
+    {
+        return glfwGetKey(this->window, key);
+    }
+
+    OffscreenWindow::OffscreenWindow(const WindowConfig& config) : Window(config)
     {
         this->initialize_glfw();
 

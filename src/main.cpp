@@ -31,36 +31,6 @@ static constexpr std::array<rb::index_t, 36> BLOCK_INDICES = {0, 3, 1, 3, 2, 1, 
 
 static std::array<rb::Vertex, NUM_VERTICES> vertices;
 static std::array<rb::index_t, NUM_INDICES> indices;
-static float zoom_level = 2.0f;
-
-#if RB_REAL_TIME
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    bool& cursor_is_disabled = static_cast<rb::RealtimeWindowState*>(glfwGetWindowUserPointer(window))->cursor_is_disabled;
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS && cursor_is_disabled)
-    {
-        cursor_is_disabled = false;
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    }
-    else if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
-
-static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-{
-    bool& cursor_is_disabled = static_cast<rb::RealtimeWindowState*>(glfwGetWindowUserPointer(window))->cursor_is_disabled;
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !cursor_is_disabled)
-    {
-        cursor_is_disabled = true;
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    }
-}
-#endif
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    zoom_level -= yoffset * 0.2f;
-}
 
 static void set_block_vertices(int block_index, int texture_index, const glm::vec3& position)
 {
@@ -86,11 +56,26 @@ int main()
     set_block_vertices(0, 0, {0.0f, 0.0f, 0.0f});
     set_block_vertices(1, 1, {1.0f, 0.0f, 0.0f});
 
+    const rb::CameraConfig camera_config{WIDTH, HEIGHT};
+    rb::IsometricCameraController camera{camera_config, 2.0f};
+
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
-    rb::RealtimeWindow window{{window_config, "Render Bat", {WIDTH, HEIGHT}, true, key_callback, mouse_button_callback, scroll_callback}};
+    rb::RealtimeWindow window{
+        {window_config,
+         "Render Bat",
+         {WIDTH, HEIGHT},
+         true,
+         [&camera](rb::RealtimeWindow& window, double xoffset, double yoffset) { camera.on_mouse_scroll(yoffset); },
+         [&camera](rb::RealtimeWindow& window, double xpos, double ypos)
+         {
+             auto& state = window.get_state();
+             const glm::dvec2 new_cursor_pos = {xpos, ypos};
+             if (state.cursor_is_disabled) camera.on_mouse_move(new_cursor_pos - state.cursor_pos);
+             state.cursor_pos = new_cursor_pos;
+         }}};
 #else
-    const rb::OffscreenWindow window{rb::OffscreenWindowConfig(window_config)};
+    const rb::OffscreenWindow window{window_config};
 #endif
 
     glEnable(GL_BLEND);
@@ -106,11 +91,9 @@ int main()
         const rb::Framebuffer framebuffer{WIDTH, HEIGHT};
 #endif
 
-        const rb::VertexBuffer vao{sizeof(vertices), static_cast<const void*>(vertices.data())};
-        const rb::IndexBuffer ibo{sizeof(indices), static_cast<const void*>(indices.data())};
+        const rb::VertexBuffer vao{sizeof(vertices), reinterpret_cast<const void*>(vertices.data())};
+        const rb::IndexBuffer ibo{sizeof(indices), reinterpret_cast<const void*>(indices.data())};
         const rb::Shader shader{"../shaders/cubemap.glsl"};
-        const rb::CameraConfig camera_config{WIDTH, HEIGHT};
-        rb::IsometricCameraController camera{camera_config, zoom_level};
 
         const rb::Cubemap grass_cubemap{{
             "../../assets/blocks/grass_side_carried.png",
@@ -125,9 +108,8 @@ int main()
 #if RB_REAL_TIME
         while (window.is_open())
         {
-            window.update();
+            window.update_time();
             camera.update(window.get_state());
-            camera.set_zoom_level(zoom_level);
 #endif
 
             glViewport(0, 0, WIDTH, HEIGHT);

@@ -182,7 +182,6 @@ namespace rb
             std::cerr << "Shader linking error:\n" << info_log.data();
 
             glDeleteProgram(this->id);
-
             for (i = 0; i < num_shaders; ++i)
                 glDeleteShader(shader_ids[i]);
         }

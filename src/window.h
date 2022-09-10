@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <glm/glm.hpp>
 #include <string>
 #define GLFW_INCLUDE_NONE
@@ -13,6 +14,8 @@ namespace rb
         int samples;
     };
 
+    struct RealtimeWindow;
+
     struct RealtimeWindowConfig
     {
         WindowConfig window_config;
@@ -20,14 +23,9 @@ namespace rb
         std::string title;
         glm::ivec2 size;
         bool vsync;
-        GLFWkeyfun key_callback;
-        GLFWmousebuttonfun mouse_button_callback;
-        GLFWscrollfun scroll_callback;
-    };
 
-    struct OffscreenWindowConfig
-    {
-        const WindowConfig window_config;
+        std::function<void(RealtimeWindow&, double, double)> scroll_callback;
+        std::function<void(RealtimeWindow&, double, double)> cursor_pos_callback;
     };
 
     class Window
@@ -49,6 +47,8 @@ namespace rb
 
     struct RealtimeWindowState
     {
+        const RealtimeWindowConfig config;
+
         double time;
         double dt;
 
@@ -59,10 +59,9 @@ namespace rb
         bool space_is_pressed = false;
         bool shift_is_pressed = false;
 
-        bool cursor_is_disabled = false;
-
         glm::dvec2 cursor_pos;
-        glm::dvec2 delta_pos;
+        bool cursor_is_disabled = false;
+        float zoom_level = 2.0f;
     };
 
     class RealtimeWindow : public Window
@@ -70,26 +69,26 @@ namespace rb
     public:
         RealtimeWindow(const RealtimeWindowConfig& config);
 
-        bool is_open() const;
-        glm::dvec2 get_cursor_pos() const;
-        int get_key(int key) const;
-
-        const RealtimeWindowState& get_state() const;
-
-        void update();
+        void update_time();
         void swap_buffers() const;
 
+        const RealtimeWindowState& get_state() const;
+        RealtimeWindowState& get_state();
+
+        bool is_open() const;
+        void close() const;
+
+        void set_input_mode(int mode, int value) const;
+        const glm::dvec2& get_cursor_pos() const;
+        int get_key(int key) const;
+
     private:
-        const RealtimeWindowConfig config;
         RealtimeWindowState state;
     };
 
     class OffscreenWindow : public Window
     {
     public:
-        OffscreenWindow(const OffscreenWindowConfig& config);
-
-    private:
-        const OffscreenWindowConfig config;
+        OffscreenWindow(const WindowConfig& config);
     };
 }  // namespace rb

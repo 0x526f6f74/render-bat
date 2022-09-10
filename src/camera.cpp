@@ -87,20 +87,20 @@ namespace rb
         this->on_mouse_move({-150.0f, 105.0f});
     }
 
-    void IsometricCamera::set_zoom_level(float zoom_level)
+    void IsometricCamera::on_mouse_scroll(double yoffset)
     {
-        this->projection_matrix =
-            glm::ortho(-this->config.aspect_ratio * zoom_level, this->config.aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f);
+        this->zoom_level -= yoffset * 0.2f;
+        this->projection_matrix = glm::ortho(
+            -this->config.aspect_ratio * this->zoom_level, this->config.aspect_ratio * this->zoom_level, -this->zoom_level, this->zoom_level, -10.0f, 100.0f
+        );
         this->dirty_matrices = true;
     }
 
-    void IsometricCameraController::update(const RealtimeWindowState& state)
+    void IsometricCameraController::update(RealtimeWindowState& state)
     {
         if (state.a_is_pressed) this->move_sideways(-state.dt * this->config.speed);
         if (state.d_is_pressed) this->move_sideways(state.dt * this->config.speed);
         if (state.space_is_pressed) this->move_up(state.dt * this->config.speed);
         if (state.shift_is_pressed) this->move_up(-state.dt * this->config.speed);
-
-        if (state.cursor_is_disabled && state.delta_pos != glm::dvec2(0.0f)) this->on_mouse_move(state.delta_pos);
     }
 }  // namespace rb

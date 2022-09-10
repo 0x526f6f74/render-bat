@@ -49,7 +49,7 @@ AllowShortFunctionsOnASingleLine: None
 BreakConstructorInitializers: BeforeComma
 ConstructorInitializerIndentWidth: 2
 IncludeBlocks: Regroup
-SortIncludes: true
+SortIncludes: CaseSensitive
 SpaceInEmptyBlock: true
 SpaceBeforeInheritanceColon: true
 BinPackArguments: false

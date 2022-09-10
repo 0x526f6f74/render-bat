@@ -63,7 +63,10 @@ namespace rb
     public:
         IsometricCamera(const CameraConfig& config, float zoom_level);
 
-        void set_zoom_level(float zoom_level);
+        void on_mouse_scroll(double yoffset);
+
+    private:
+        float zoom_level = 2.0f;
     };
 
     class IsometricCameraController : public IsometricCamera
@@ -71,6 +74,6 @@ namespace rb
     public:
         using IsometricCamera::IsometricCamera;
 
-        void update(const RealtimeWindowState& state);
+        void update(RealtimeWindowState& state);
     };
 }  // namespace rb
