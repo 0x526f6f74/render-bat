@@ -9,7 +9,7 @@ namespace rb
 {
     static constexpr char TYPE_DIRECTIVE[] = "#type";
     static constexpr char INCLUSION_DIRECTIVE[] = "#include";
-    static constexpr char INCLUSION_DIRECTORY[] = "../shaders/include/";
+    static constexpr char INCLUSION_DIRECTORY[] = "../render-bat/shaders/include/";
     static constexpr int MAX_SHADER_LEN = 8192;
     static constexpr int MAX_NUM_SHADERS = 4;
     static constexpr int MAX_SHADER_LINE_LEN = 256;
