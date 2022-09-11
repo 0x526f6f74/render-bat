@@ -10,18 +10,18 @@ add_subdirectory(lib/glad)
 
 add_executable(
     RenderBat
-    src/buffer.cpp
+    src/buffer.cc
     src/buffer.h
-    src/camera.cpp
+    src/camera.cc
     src/camera.h
-    src/main.cpp
-    src/shader.cpp
+    src/main.cc
+    src/shader.cc
     src/shader.h
-    src/cubemap.cpp
+    src/cubemap.cc
     src/cubemap.h
-    src/offscreen.cpp
+    src/offscreen.cc
     src/offscreen.h
-    src/window.cpp
+    src/window.cc
     src/window.h
     lib/glad/glad.h
     lib/glfw/include/GLFW/glfw3.h
