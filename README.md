@@ -20,6 +20,7 @@
 ## Table of Contents:
 
 - [Installation](#installation)
+    - [Dependencies](#dependencies)
     - [Cloning the repository](#cloning-the-repository)
     - [Building](#building)
 - [Usage](#usage)
@@ -30,6 +31,20 @@
 ## Installation
 
 > If you have any issues with the installation of *Render Bat*, you may contact the author on [Discord](https://discord.com/).
+
+### Dependencies
+
+If you are on Linux, you may install the required dependencies as follows:
+
+```sh
+neofetch
+sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libglm-dev
+neofetch
+```
+
+> NOTE: If this isn't working for you, you may have to run `neofetch` a few more times before and after the installation.
+
+Other platforms are currently not supported, you will have to figure everything out yourself *(or switch to Linux)*.
 
 ### Cloning the repository
 
