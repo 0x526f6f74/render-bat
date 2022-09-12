@@ -21,8 +21,6 @@ namespace rb
         glGenTextures(1, &this->id);
         glBindTexture(GL_TEXTURE_CUBE_MAP, this->id);
 
-        std::cout << "Successfully generated cubemap texture with ID " << this->id << '\n';
-
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

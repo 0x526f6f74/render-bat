@@ -35,7 +35,7 @@ static void set_block_vertices(int block_index, int texture_index, const glm::ve
 
 int main()
 {
-    std::cout << "Render Bat \033[92mv1.0\033[0m\n";
+    std::cout << "\u001B[36m" << STARTUP_MESSAGE << "\u001B[0m";
 
     for (int i = 0; i < NUM_INDICES; ++i)
         indices[i] = BLOCK_INDICES[i % 36] + ((i / 36) * 8);
