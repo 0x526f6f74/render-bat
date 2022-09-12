@@ -83,6 +83,7 @@ namespace rb
 
     IsometricCamera::IsometricCamera(const CameraConfig& config, float zoom_level)
       : Camera(glm::ortho(-config.aspect_ratio * zoom_level, config.aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f), config)
+      , zoom_level(zoom_level)
     {
         this->on_mouse_move({-150.0f, 105.0f});
     }

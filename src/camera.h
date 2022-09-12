@@ -66,7 +66,7 @@ namespace rb
         void on_mouse_scroll(double yoffset);
 
     private:
-        float zoom_level = 2.0f;
+        float zoom_level;
     };
 
     class IsometricCameraController : public IsometricCamera
