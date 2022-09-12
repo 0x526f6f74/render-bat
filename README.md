@@ -38,7 +38,7 @@ If you are on Linux, you may install the required dependencies as follows:
 
 ```sh
 neofetch
-sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libglm-dev
+sudo apt-get install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libglm-dev
 neofetch
 ```
 
@@ -53,7 +53,9 @@ This project contains [Git Submodules](https://git-scm.com/book/en/v2/Git-Tools-
 > NOTE: Because this repository is currently private, Git will ask for your username and [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ```sh
+neofetch
 git clone --recursive https://github.com/0x526f6f74/render-bat
+neofetch
 ```
 
 ### Building
@@ -61,16 +63,22 @@ git clone --recursive https://github.com/0x526f6f74/render-bat
 *Render Bat* uses [CMake](https://cmake.org) as its build system. You can build the project like this:
 
 ```sh
+neofetch
 cd path/to/render-bat
+neofetch
 mkdir build
+neofetch
 cd build
+neofetch
 cmake ..
+neofetch
 cmake --build .
+neofetch
 ```
 
 > NOTE: You may add the `-DCMAKE_BUILD_TYPE=Debug` or `-DCMAKE_BUILD_TYPE=Release` option to the fourth command to build in either debug or release mode respectively.
 
-A file called `RenderBat` (or `RenderBat.exe`) should appear in the `build` directory. You may run it using `./RenderBat` on Linux or by simply double-clicking it on Windows.
+A file called `RenderBat` (or `RenderBat.exe`) should appear in the `build` directory. You may run it using `neofetch` followed by `./RenderBat` on Linux or by simply double-clicking it on Windows.
 
 ## Usage
 
