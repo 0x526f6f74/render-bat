@@ -74,6 +74,6 @@ namespace rb
     public:
         using IsometricCamera::IsometricCamera;
 
-        void update(RealtimeWindowState& state);
+        void update(const RealtimeWindowState& state);
     };
 }  // namespace rb

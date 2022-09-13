@@ -97,7 +97,7 @@ namespace rb
         this->dirty_matrices = true;
     }
 
-    void IsometricCameraController::update(RealtimeWindowState& state)
+    void IsometricCameraController::update(const RealtimeWindowState& state)
     {
         if (state.a_is_pressed) this->move_sideways(-state.dt * this->config.speed);
         if (state.d_is_pressed) this->move_sideways(state.dt * this->config.speed);
