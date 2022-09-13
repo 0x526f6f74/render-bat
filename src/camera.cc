@@ -59,13 +59,6 @@ const glm::mat4& Camera::get_view_projection_matrix()
     return this->view_projection_matrix;
 }
 
-const glm::mat4& Camera::get_view_matrix()
-{
-    if (dirty_matrices) this->refresh_matrices();
-
-    return this->view_matrix;
-}
-
 PerspectiveCamera::PerspectiveCamera(const CameraConfig& config)
   : Camera(config, glm::perspective(config.fov / 2.0f, static_cast<float>(config.width) / config.height, 0.1f, 1000.0f))
 {

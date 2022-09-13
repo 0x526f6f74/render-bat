@@ -34,7 +34,6 @@ public:
     void move_up(float distance);
 
     const glm::mat4& get_view_projection_matrix();
-    const glm::mat4& get_view_matrix();
 
 protected:
     const CameraConfig config;
