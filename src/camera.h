@@ -24,7 +24,7 @@ struct CameraConfig
 class Camera
 {
 public:
-    Camera(const glm::mat4& projection_matrix, const CameraConfig& config);
+    Camera(const CameraConfig& config, const glm::mat4& projection_matrix);
 
     void translate(const glm::vec3& v);
     void on_mouse_move(const glm::vec2& delta_pos);
@@ -40,15 +40,15 @@ protected:
     const CameraConfig config;
 
     glm::mat4 projection_matrix;
-    bool dirty_matrices;
+    bool dirty_matrices = false;
 
 private:
-    glm::vec3 position;
+    glm::vec3 position{0.0f};
     glm::vec3 look_at;
-    glm::vec3 up;
-    glm::mat4 view_matrix;
+    glm::vec3 up{0.0f, 1.0f, 0.0f};
+    glm::mat4 view_matrix{1.0f};
     glm::mat4 view_projection_matrix;
-    float yaw, pitch;
+    float yaw = -90.0f, pitch = 0.0f;
 
     void refresh_matrices();
 };

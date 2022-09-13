@@ -9,15 +9,7 @@ CameraConfig::CameraConfig(int width, int height)
   : width(width), height(height), fov(90.0f), speed(3.0f), mouse_sensivity(0.3f), aspect_ratio(static_cast<float>(width) / height)
 { }
 
-Camera::Camera(const glm::mat4& projection_matrix, const CameraConfig& config)
-  : config(config)
-  , projection_matrix(projection_matrix)
-  , dirty_matrices(false)
-  , position(glm::vec3(0.0f))
-  , up(glm::vec3(0.0f, 1.0f, 0.0f))
-  , view_matrix(glm::mat4(1.0f))
-  , yaw(-90.0f)
-  , pitch(0.0f)
+Camera::Camera(const CameraConfig& config, const glm::mat4& projection_matrix) : config(config), projection_matrix(projection_matrix)
 { }
 
 void Camera::translate(const glm::vec3& v)
@@ -75,13 +67,13 @@ const glm::mat4& Camera::get_view_matrix()
 }
 
 PerspectiveCamera::PerspectiveCamera(const CameraConfig& config)
-  : Camera(glm::perspective(config.fov / 2.0f, static_cast<float>(config.width) / config.height, 0.1f, 1000.0f), config)
+  : Camera(config, glm::perspective(config.fov / 2.0f, static_cast<float>(config.width) / config.height, 0.1f, 1000.0f))
 {
     this->on_mouse_move({0.0f, 0.0f});
 }
 
 IsometricCamera::IsometricCamera(const CameraConfig& config, float zoom_level)
-  : Camera(glm::ortho(-config.aspect_ratio * zoom_level, config.aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f), config)
+  : Camera(config, glm::ortho(-config.aspect_ratio * zoom_level, config.aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f))
   , zoom_level(zoom_level)
 {
     this->on_mouse_move({-150.0f, 105.0f});
