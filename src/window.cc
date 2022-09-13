@@ -143,7 +143,7 @@ namespace rb
 
     void RealtimeWindow::close() const
     {
-        glfwSetWindowShouldClose(this->window, GLFW_TRUE);
+        glfwSetWindowShouldClose(this->window, true);
     }
 
     void RealtimeWindow::set_input_mode(int mode, int value) const
@@ -165,7 +165,7 @@ namespace rb
     {
         this->initialize_glfw();
 
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_VISIBLE, false);
 
         this->window = glfwCreateWindow(1, 1, "", nullptr, nullptr);
 
