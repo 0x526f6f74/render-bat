@@ -6,74 +6,76 @@
 
 namespace rb
 {
-    struct CameraConfig
-    {
-        CameraConfig() = default;
-        CameraConfig(int width, int height);
 
-        int width, height;
+struct CameraConfig
+{
+    CameraConfig() = default;
+    CameraConfig(int width, int height);
 
-        float fov;
-        float speed;
-        float mouse_sensivity;
+    int width, height;
 
-        float aspect_ratio;
-    };
+    float fov;
+    float speed;
+    float mouse_sensivity;
 
-    class Camera
-    {
-    public:
-        Camera(const glm::mat4& projection_matrix, const CameraConfig& config);
+    float aspect_ratio;
+};
 
-        void translate(const glm::vec3& v);
-        void on_mouse_move(const glm::vec2& delta_pos);
+class Camera
+{
+public:
+    Camera(const glm::mat4& projection_matrix, const CameraConfig& config);
 
-        void move_forwards(float distance);
-        void move_sideways(float distance);
-        void move_up(float distance);
+    void translate(const glm::vec3& v);
+    void on_mouse_move(const glm::vec2& delta_pos);
 
-        const glm::mat4& get_view_projection_matrix();
-        const glm::mat4& get_view_matrix();
+    void move_forwards(float distance);
+    void move_sideways(float distance);
+    void move_up(float distance);
 
-    protected:
-        const CameraConfig config;
+    const glm::mat4& get_view_projection_matrix();
+    const glm::mat4& get_view_matrix();
 
-        glm::mat4 projection_matrix;
-        bool dirty_matrices;
+protected:
+    const CameraConfig config;
 
-    private:
-        glm::vec3 position;
-        glm::vec3 look_at;
-        glm::vec3 up;
-        glm::mat4 view_matrix;
-        glm::mat4 view_projection_matrix;
-        float yaw, pitch;
+    glm::mat4 projection_matrix;
+    bool dirty_matrices;
 
-        void refresh_matrices();
-    };
+private:
+    glm::vec3 position;
+    glm::vec3 look_at;
+    glm::vec3 up;
+    glm::mat4 view_matrix;
+    glm::mat4 view_projection_matrix;
+    float yaw, pitch;
 
-    class PerspectiveCamera : public Camera
-    {
-    public:
-        PerspectiveCamera(const CameraConfig& config);
-    };
+    void refresh_matrices();
+};
 
-    class IsometricCamera : public Camera
-    {
-    public:
-        IsometricCamera(const CameraConfig& config, float zoom_level);
+class PerspectiveCamera : public Camera
+{
+public:
+    PerspectiveCamera(const CameraConfig& config);
+};
 
-        void on_mouse_scroll(double yoffset);
+class IsometricCamera : public Camera
+{
+public:
+    IsometricCamera(const CameraConfig& config, float zoom_level);
 
-    private:
-        float zoom_level;
-    };
+    void on_mouse_scroll(double yoffset);
 
-    class IsometricCameraController : public IsometricCamera
-    {
-    public:
-        using IsometricCamera::IsometricCamera;
+private:
+    float zoom_level;
+};
 
-        void update(const RealtimeWindowState& state);
-    };
+class IsometricCameraController : public IsometricCamera
+{
+public:
+    using IsometricCamera::IsometricCamera;
+
+    void update(const RealtimeWindowState& state);
+};
+
 }  // namespace rb

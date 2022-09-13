@@ -8,87 +8,89 @@
 
 namespace rb
 {
-    struct WindowConfig
-    {
-        glm::ivec2 context_version;
-        int samples;
-    };
 
-    struct RealtimeWindow;
+struct WindowConfig
+{
+    glm::ivec2 context_version;
+    int samples;
+};
 
-    struct RealtimeWindowConfig
-    {
-        WindowConfig window_config;
+struct RealtimeWindow;
 
-        std::string title;
-        glm::ivec2 size;
-        bool vsync;
+struct RealtimeWindowConfig
+{
+    WindowConfig window_config;
 
-        std::function<void(RealtimeWindow&, double, double)> scroll_callback;
-        std::function<void(RealtimeWindow&, double, double)> cursor_pos_callback;
-    };
+    std::string title;
+    glm::ivec2 size;
+    bool vsync;
 
-    class Window
-    {
-    public:
-        Window(const WindowConfig& config);
-        virtual ~Window();
+    std::function<void(RealtimeWindow&, double, double)> scroll_callback;
+    std::function<void(RealtimeWindow&, double, double)> cursor_pos_callback;
+};
 
-    protected:
-        void initialize_glfw() const;
-        void check_if_window_creation_was_successful() const;
-        void make_opengl_context() const;
+class Window
+{
+public:
+    Window(const WindowConfig& config);
+    virtual ~Window();
 
-        GLFWwindow* window;
+protected:
+    void initialize_glfw() const;
+    void check_if_window_creation_was_successful() const;
+    void make_opengl_context() const;
 
-    private:
-        const WindowConfig config;
-    };
+    GLFWwindow* window;
 
-    struct RealtimeWindowState
-    {
-        const RealtimeWindowConfig config;
+private:
+    const WindowConfig config;
+};
 
-        double time;
-        double dt;
+struct RealtimeWindowState
+{
+    const RealtimeWindowConfig config;
 
-        bool w_is_pressed = false;
-        bool a_is_pressed = false;
-        bool s_is_pressed = false;
-        bool d_is_pressed = false;
-        bool space_is_pressed = false;
-        bool shift_is_pressed = false;
+    double time;
+    double dt;
 
-        glm::dvec2 cursor_pos;
-        bool cursor_is_disabled = false;
-        float zoom_level = 2.0f;
-    };
+    bool w_is_pressed = false;
+    bool a_is_pressed = false;
+    bool s_is_pressed = false;
+    bool d_is_pressed = false;
+    bool space_is_pressed = false;
+    bool shift_is_pressed = false;
 
-    class RealtimeWindow : public Window
-    {
-    public:
-        RealtimeWindow(const RealtimeWindowConfig& config);
+    glm::dvec2 cursor_pos;
+    bool cursor_is_disabled = false;
+    float zoom_level = 2.0f;
+};
 
-        void update_time();
-        void swap_buffers() const;
+class RealtimeWindow : public Window
+{
+public:
+    RealtimeWindow(const RealtimeWindowConfig& config);
 
-        const RealtimeWindowState& get_state() const;
-        RealtimeWindowState& get_state();
+    void update_time();
+    void swap_buffers() const;
 
-        bool is_open() const;
-        void close() const;
+    const RealtimeWindowState& get_state() const;
+    RealtimeWindowState& get_state();
 
-        void set_input_mode(int mode, int value) const;
-        const glm::dvec2& get_cursor_pos() const;
-        int get_key(int key) const;
+    bool is_open() const;
+    void close() const;
 
-    private:
-        RealtimeWindowState state;
-    };
+    void set_input_mode(int mode, int value) const;
+    const glm::dvec2& get_cursor_pos() const;
+    int get_key(int key) const;
 
-    class OffscreenWindow : public Window
-    {
-    public:
-        OffscreenWindow(const WindowConfig& config);
-    };
+private:
+    RealtimeWindowState state;
+};
+
+class OffscreenWindow : public Window
+{
+public:
+    OffscreenWindow(const WindowConfig& config);
+};
+
 }  // namespace rb

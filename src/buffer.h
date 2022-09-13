@@ -4,25 +4,27 @@
 
 namespace rb
 {
-    class VertexBuffer
-    {
-    public:
-        VertexBuffer(GLsizeiptr size, const void* data);
 
-        void bind() const;
+class VertexBuffer
+{
+public:
+    VertexBuffer(GLsizeiptr size, const void* data);
 
-    private:
-        GLuint vao, vbo;
-    };
+    void bind() const;
 
-    class IndexBuffer
-    {
-    public:
-        IndexBuffer(GLsizeiptr size, const void* data);
+private:
+    GLuint vao, vbo;
+};
 
-        void bind() const;
+class IndexBuffer
+{
+public:
+    IndexBuffer(GLsizeiptr size, const void* data);
 
-    private:
-        GLuint ibo;
-    };
+    void bind() const;
+
+private:
+    GLuint ibo;
+};
+
 }  // namespace rb

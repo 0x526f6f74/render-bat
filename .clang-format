@@ -6,7 +6,7 @@ BasedOnStyle: Google
 # Indentation
 IndentWidth: 4
 AccessModifierOffset: -4
-NamespaceIndentation: All
+NamespaceIndentation: None
 IndentPPDirectives: AfterHash
 
 # Comments

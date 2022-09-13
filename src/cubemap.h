@@ -6,25 +6,27 @@
 
 namespace rb
 {
-    struct CubemapFaceTexturePaths
-    {
-        CubemapFaceTexturePaths() = default;
-        CubemapFaceTexturePaths(const std::string& all_faces);
-        CubemapFaceTexturePaths(
-            const std::string& east, const std::string& west, const std::string& up, const std::string& down, const std::string& south, const std::string& north
-        );
 
-        std::string east, west, up, down, south, north;
-    };
+struct CubemapFaceTexturePaths
+{
+    CubemapFaceTexturePaths() = default;
+    CubemapFaceTexturePaths(const std::string& all_faces);
+    CubemapFaceTexturePaths(
+        const std::string& east, const std::string& west, const std::string& up, const std::string& down, const std::string& south, const std::string& north
+    );
 
-    class Cubemap
-    {
-    public:
-        Cubemap(const CubemapFaceTexturePaths& texture_paths);
+    std::string east, west, up, down, south, north;
+};
 
-    private:
-        GLuint id;
+class Cubemap
+{
+public:
+    Cubemap(const CubemapFaceTexturePaths& texture_paths);
 
-        void load_face_texture(const std::string& texture_path, int index) const;
-    };
+private:
+    GLuint id;
+
+    void load_face_texture(const std::string& texture_path, int index) const;
+};
+
 }  // namespace rb

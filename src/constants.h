@@ -4,7 +4,9 @@
 
 namespace rb
 {
-    using index_t = std::uint16_t;
+
+using index_t = std::uint16_t;
+
 }
 
 static constexpr int MAX_TEXTURE_SLOTS = 32;
