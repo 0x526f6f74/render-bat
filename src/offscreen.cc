@@ -33,7 +33,7 @@ Framebuffer::~Framebuffer()
     glDeleteRenderbuffers(1, &this->depth_rbo);
 }
 
-void write_color_buffer_to_png_file(const char* filename, int width, int height)
+void write_color_buffer_to_png_file(const char* filepath, int width, int height)
 {
     png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!png)
@@ -65,7 +65,7 @@ void write_color_buffer_to_png_file(const char* filename, int width, int height)
     for (int i = 0; i < height; ++i)
         png_rows[height - i - 1] = &png_bytes[i * width * num_channels];
 
-    std::FILE* file = std::fopen(filename, "wb");
+    std::FILE* file = std::fopen(filepath, "wb");
 
     png_init_io(png, file);
     png_set_IHDR(png, info, width, height, 8, PNG_COLOR_TYPE_RGBA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);

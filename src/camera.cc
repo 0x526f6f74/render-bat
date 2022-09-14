@@ -6,7 +6,7 @@ namespace rb
 {
 
 CameraConfig::CameraConfig(int width, int height)
-  : width(width), height(height), fov(90.0f), speed(3.0f), mouse_sensivity(0.3f), aspect_ratio(static_cast<float>(width) / height)
+  : width(width), height(height), aspect_ratio(static_cast<float>(width) / height), fov(90.0f), speed(3.0f), mouse_sensivity(0.3f), zoom_sensivity(0.2f)
 { }
 
 Camera::Camera(const CameraConfig& config, const glm::mat4& projection_matrix) : config(config), projection_matrix(projection_matrix)
@@ -74,7 +74,7 @@ IsometricCamera::IsometricCamera(const CameraConfig& config, float zoom_level)
 
 void IsometricCamera::on_mouse_scroll(double yoffset)
 {
-    this->zoom_level -= yoffset * 0.2f;
+    this->zoom_level -= yoffset * this->config.zoom_sensivity;
     this->projection_matrix = glm::ortho(
         -this->config.aspect_ratio * this->zoom_level, this->config.aspect_ratio * this->zoom_level, -this->zoom_level, this->zoom_level, -10.0f, 100.0f
     );

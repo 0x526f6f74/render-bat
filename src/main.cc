@@ -43,10 +43,10 @@ int main()
     set_block_vertices(1, 1, {1.0f, 0.0f, 0.0f});
 
     const rb::CameraConfig camera_config{WIDTH, HEIGHT};
-    rb::IsometricCameraController camera{camera_config, 2.0f};
 
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
+    rb::IsometricCameraController camera{camera_config, 2.0f};
     rb::RealtimeWindow window{
         {window_config,
          "Render Bat",
@@ -61,6 +61,7 @@ int main()
              state.cursor_pos = new_cursor_pos;
          }}};
 #else
+    rb::IsometricCamera camera{camera_config, 2.0f};
     const rb::OffscreenWindow window{window_config};
 #endif
 
@@ -119,7 +120,7 @@ int main()
             window.swap_buffers();
         }
 #else
-        rb::write_color_buffer_to_png_file("../../output.png", WIDTH, HEIGHT);
+        rb::write_color_buffer_to_png_file("../output.png", WIDTH, HEIGHT);
 #endif
     }
 

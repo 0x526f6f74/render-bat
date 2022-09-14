@@ -13,12 +13,13 @@ struct CameraConfig
     CameraConfig(int width, int height);
 
     int width, height;
+    float aspect_ratio;
 
     float fov;
+
     float speed;
     float mouse_sensivity;
-
-    float aspect_ratio;
+    float zoom_sensivity;
 };
 
 class Camera

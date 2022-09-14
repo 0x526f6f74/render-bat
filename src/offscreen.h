@@ -17,6 +17,6 @@ private:
     GLuint fbo, color_rbo, depth_rbo;
 };
 
-void write_color_buffer_to_png_file(const char* filename, int width, int height);
+void write_color_buffer_to_png_file(const char* filepath, int width, int height);
 
 }  // namespace rb
