@@ -43,7 +43,6 @@ int main()
     set_block_vertices(1, 1, {1.0f, 0.0f, 0.0f});
 
     const rb::CameraConfig camera_config{WIDTH, HEIGHT};
-
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
     rb::IsometricCameraController camera{camera_config, 2.0f};
