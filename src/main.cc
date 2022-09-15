@@ -42,10 +42,10 @@ int main()
     set_block_vertices(0, 0, {0.0f, 0.0f, 0.0f});
     set_block_vertices(1, 1, {1.0f, 0.0f, 0.0f});
 
-    const rb::CameraConfig camera_config{WIDTH, HEIGHT};
+    rb::OrthographicCameraConfig camera_config{{WIDTH, HEIGHT, static_cast<float>(WIDTH) / HEIGHT, 3.0f, 0.3f, 0.2f}, 2.0f};
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
-    rb::IsometricCameraController camera{camera_config, 2.0f};
+    rb::IsometricCameraController camera{camera_config};
     rb::RealtimeWindow window{
         {window_config,
          "Render Bat",

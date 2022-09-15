@@ -5,10 +5,6 @@
 namespace rb
 {
 
-CameraConfig::CameraConfig(int width, int height)
-  : width(width), height(height), aspect_ratio(static_cast<float>(width) / height), fov(90.0f), speed(3.0f), mouse_sensivity(0.3f), zoom_sensivity(0.2f)
-{ }
-
 Camera::Camera(const CameraConfig& config, const glm::mat4& projection_matrix) : config(config), projection_matrix(projection_matrix)
 { }
 
@@ -59,34 +55,49 @@ const glm::mat4& Camera::get_view_projection_matrix()
     return this->view_projection_matrix;
 }
 
-PerspectiveCamera::PerspectiveCamera(const CameraConfig& config)
-  : Camera(config, glm::perspective(config.fov / 2.0f, static_cast<float>(config.width) / config.height, 0.1f, 1000.0f))
-{
-    this->on_mouse_move({0.0f, 0.0f});
-}
-
-IsometricCamera::IsometricCamera(const CameraConfig& config, float zoom_level)
-  : Camera(config, glm::ortho(-config.aspect_ratio * zoom_level, config.aspect_ratio * zoom_level, -zoom_level, zoom_level, -10.0f, 100.0f))
-  , zoom_level(zoom_level)
+IsometricCamera::IsometricCamera(const OrthographicCameraConfig& config)
+  : Camera(
+        config.camera,
+        glm::ortho(
+            -config.camera.aspect_ratio * config.zoom_level,
+            config.camera.aspect_ratio * config.zoom_level,
+            -config.zoom_level,
+            config.zoom_level,
+            -10.0f,
+            100.0f
+        )
+    )
+  , config(config)
 {
     this->on_mouse_move({-150.0f, 105.0f});
 }
 
+PerspectiveCamera::PerspectiveCamera(const PerspectiveCameraConfig& config)
+  : Camera(config.camera, glm::perspective(config.fov / 2.0f, config.camera.aspect_ratio, 0.1f, 1000.0f))
+{
+    this->on_mouse_move({0.0f, 0.0f});
+}
+
 void IsometricCamera::on_mouse_scroll(double yoffset)
 {
-    this->zoom_level -= yoffset * this->config.zoom_sensivity;
+    this->config.zoom_level -= yoffset * this->config.camera.zoom_sensivity;
     this->projection_matrix = glm::ortho(
-        -this->config.aspect_ratio * this->zoom_level, this->config.aspect_ratio * this->zoom_level, -this->zoom_level, this->zoom_level, -10.0f, 100.0f
+        -this->config.camera.aspect_ratio * this->config.zoom_level,
+        this->config.camera.aspect_ratio * this->config.zoom_level,
+        -this->config.zoom_level,
+        this->config.zoom_level,
+        -10.0f,
+        100.0f
     );
     this->dirty_matrices = true;
 }
 
 void IsometricCameraController::update(const RealtimeWindowState& state)
 {
-    if (state.a_is_pressed) this->move_sideways(-state.dt * this->config.speed);
-    if (state.d_is_pressed) this->move_sideways(state.dt * this->config.speed);
-    if (state.space_is_pressed) this->move_up(state.dt * this->config.speed);
-    if (state.shift_is_pressed) this->move_up(-state.dt * this->config.speed);
+    if (state.a_is_pressed) this->move_sideways(-state.dt * this->config.camera.speed);
+    if (state.d_is_pressed) this->move_sideways(state.dt * this->config.camera.speed);
+    if (state.space_is_pressed) this->move_up(state.dt * this->config.camera.speed);
+    if (state.shift_is_pressed) this->move_up(-state.dt * this->config.camera.speed);
 }
 
 }  // namespace rb

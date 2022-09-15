@@ -9,17 +9,26 @@ namespace rb
 
 struct CameraConfig
 {
-    CameraConfig() = default;
-    CameraConfig(int width, int height);
-
     int width, height;
     float aspect_ratio;
-
-    float fov;
 
     float speed;
     float mouse_sensivity;
     float zoom_sensivity;
+};
+
+struct OrthographicCameraConfig
+{
+    CameraConfig camera;
+
+    float zoom_level;
+};
+
+struct PerspectiveCameraConfig
+{
+    CameraConfig camera;
+
+    float fov;
 };
 
 class Camera
@@ -53,21 +62,21 @@ private:
     void refresh_matrices();
 };
 
-class PerspectiveCamera : public Camera
-{
-public:
-    PerspectiveCamera(const CameraConfig& config);
-};
-
 class IsometricCamera : public Camera
 {
 public:
-    IsometricCamera(const CameraConfig& config, float zoom_level);
+    IsometricCamera(const OrthographicCameraConfig& config);
 
     void on_mouse_scroll(double yoffset);
 
-private:
-    float zoom_level;
+protected:
+    OrthographicCameraConfig config;
+};
+
+class PerspectiveCamera : public Camera
+{
+public:
+    PerspectiveCamera(const PerspectiveCameraConfig& config);
 };
 
 class IsometricCameraController : public IsometricCamera
