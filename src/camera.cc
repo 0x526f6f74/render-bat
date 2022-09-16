@@ -55,6 +55,12 @@ const glm::mat4& Camera::get_view_projection_matrix()
     return this->view_projection_matrix;
 }
 
+void Camera::set_projection_matrix(const glm::mat4& projection_matrix)
+{
+    this->projection_matrix = projection_matrix;
+    this->dirty_matrices = true;
+}
+
 OrthographicCamera::OrthographicCamera(const OrthographicCameraConfig& config)
   : Camera(
         config.camera,
@@ -73,15 +79,14 @@ OrthographicCamera::OrthographicCamera(const OrthographicCameraConfig& config)
 void OrthographicCamera::on_mouse_scroll(double yoffset)
 {
     this->config.zoom_level -= yoffset * this->config.camera.zoom_sensivity;
-    this->projection_matrix = glm::ortho(
+    this->set_projection_matrix(glm::ortho(
         -this->config.camera.aspect_ratio * this->config.zoom_level,
         this->config.camera.aspect_ratio * this->config.zoom_level,
         -this->config.zoom_level,
         this->config.zoom_level,
         -10.0f,
         100.0f
-    );
-    this->dirty_matrices = true;
+    ));
 }
 
 IsometricCamera::IsometricCamera(const OrthographicCameraConfig& config) : OrthographicCamera(config)

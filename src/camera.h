@@ -48,15 +48,17 @@ public:
 protected:
     const CameraConfig config;
 
-    glm::mat4 projection_matrix;
-    bool dirty_matrices = false;
+    void set_projection_matrix(const glm::mat4& projection_matrix);
 
 private:
+    glm::mat4 projection_matrix;
+    glm::mat4 view_matrix{1.0f};
+    glm::mat4 view_projection_matrix;
+    bool dirty_matrices = false;
+
     glm::vec3 position{0.0f};
     glm::vec3 look_at;
     glm::vec3 up{0.0f, 1.0f, 0.0f};
-    glm::mat4 view_matrix{1.0f};
-    glm::mat4 view_projection_matrix;
     float yaw = -90.0f, pitch = 0.0f;
 
     void refresh_matrices();
