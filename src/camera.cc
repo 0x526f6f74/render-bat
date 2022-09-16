@@ -62,13 +62,13 @@ void Camera::refresh_if_needed()
 }
 
 OrthographicCamera::OrthographicCamera(const Config& config)
-  : Camera(glm::ortho(-config.aspect_ratio * config.zoom_level, config.aspect_ratio * config.zoom_level, -config.zoom_level, config.zoom_level))
+  : Camera(glm::ortho(-config.aspect_ratio * config.zoom_level, config.aspect_ratio * config.zoom_level, -config.zoom_level, config.zoom_level, -10.0f, 100.0f))
 { }
 
 IsometricCamera::IsometricCamera(const Config& config) : OrthographicCamera(config)
 {
     this->increment_pitch(-31.5f);
-    this->increment_yaw(45.0f);
+    this->increment_yaw(-45.0f);
 }
 
 PerspectiveCamera::PerspectiveCamera(const Config& config) : Camera(glm::perspective(config.fov / 2.0f, config.aspect_ratio, 0.1f, 1000.0f))
