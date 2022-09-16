@@ -59,7 +59,8 @@ private:
     glm::vec3 position{0.0f};
     glm::vec3 look_at;
     glm::vec3 up{0.0f, 1.0f, 0.0f};
-    float yaw = -90.0f, pitch = 0.0f;
+    float yaw = -90.0f;
+    float pitch = 0.0f;
 
     void refresh_matrices();
 };
