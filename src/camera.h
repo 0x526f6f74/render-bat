@@ -16,6 +16,10 @@ public:
     Camera(const glm::mat4& projection_matrix);
 
     void translate(const glm::vec3& delta_pos);
+    void move_forwards(float distance);
+    void move_sideways(float distance);
+    void move_upwards(float distance);
+
     void increment_pitch(float delta_pitch);
     void increment_yaw(float delta_yaw);
 
@@ -51,6 +55,11 @@ public:
     };
 
     OrthographicCamera(const Config& config);
+
+    void increment_zoom_level(float delta_zoom);
+
+private:
+    Config config;
 };
 
 class IsometricCamera : public OrthographicCamera

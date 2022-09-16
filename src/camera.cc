@@ -14,6 +14,21 @@ void Camera::translate(const glm::vec3& delta_pos)
     this->dirty_view_matrix = true;
 }
 
+void Camera::move_forwards(float distance)
+{
+    this->translate(glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * this->look_at) * distance);
+}
+
+void Camera::move_sideways(float distance)
+{
+    this->translate(glm::normalize(glm::cross(this->look_at, this->up)) * distance);
+}
+
+void Camera::move_upwards(float distance)
+{
+    this->translate(this->up * distance);
+}
+
 void Camera::increment_pitch(float delta_pitch)
 {
     this->pitch += delta_pitch;
@@ -63,7 +78,16 @@ void Camera::refresh_if_needed()
 
 OrthographicCamera::OrthographicCamera(const Config& config)
   : Camera(glm::ortho(-config.aspect_ratio * config.zoom_level, config.aspect_ratio * config.zoom_level, -config.zoom_level, config.zoom_level, -10.0f, 100.0f))
+  , config(config)
 { }
+
+void OrthographicCamera::increment_zoom_level(float delta_zoom)
+{
+    this->config.zoom_level += delta_zoom;
+    this->projection_matrix =
+        glm::ortho(-config.aspect_ratio * config.zoom_level, config.aspect_ratio * config.zoom_level, -config.zoom_level, config.zoom_level);
+    this->dirty_view_projection_matrix = true;
+}
 
 IsometricCamera::IsometricCamera(const Config& config) : OrthographicCamera(config)
 {
