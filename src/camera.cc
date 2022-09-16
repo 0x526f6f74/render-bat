@@ -55,7 +55,7 @@ const glm::mat4& Camera::get_view_projection_matrix()
     return this->view_projection_matrix;
 }
 
-IsometricCamera::IsometricCamera(const OrthographicCameraConfig& config)
+OrthographicCamera::OrthographicCamera(const OrthographicCameraConfig& config)
   : Camera(
         config.camera,
         glm::ortho(
@@ -68,17 +68,9 @@ IsometricCamera::IsometricCamera(const OrthographicCameraConfig& config)
         )
     )
   , config(config)
-{
-    this->on_mouse_move({-150.0f, 105.0f});
-}
+{ }
 
-PerspectiveCamera::PerspectiveCamera(const PerspectiveCameraConfig& config)
-  : Camera(config.camera, glm::perspective(config.fov / 2.0f, config.camera.aspect_ratio, 0.1f, 1000.0f))
-{
-    this->on_mouse_move({0.0f, 0.0f});
-}
-
-void IsometricCamera::on_mouse_scroll(double yoffset)
+void OrthographicCamera::on_mouse_scroll(double yoffset)
 {
     this->config.zoom_level -= yoffset * this->config.camera.zoom_sensivity;
     this->projection_matrix = glm::ortho(
@@ -90,6 +82,17 @@ void IsometricCamera::on_mouse_scroll(double yoffset)
         100.0f
     );
     this->dirty_matrices = true;
+}
+
+IsometricCamera::IsometricCamera(const OrthographicCameraConfig& config) : OrthographicCamera(config)
+{
+    this->on_mouse_move({-150.0f, 105.0f});
+}
+
+PerspectiveCamera::PerspectiveCamera(const PerspectiveCameraConfig& config)
+  : Camera(config.camera, glm::perspective(config.fov / 2.0f, config.camera.aspect_ratio, 0.1f, 1000.0f))
+{
+    this->on_mouse_move({0.0f, 0.0f});
 }
 
 void IsometricCameraController::update(const RealtimeWindowState& state)

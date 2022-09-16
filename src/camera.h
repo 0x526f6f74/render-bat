@@ -62,15 +62,21 @@ private:
     void refresh_matrices();
 };
 
-class IsometricCamera : public Camera
+class OrthographicCamera : public Camera
 {
 public:
-    IsometricCamera(const OrthographicCameraConfig& config);
+    OrthographicCamera(const OrthographicCameraConfig& config);
 
     void on_mouse_scroll(double yoffset);
 
 protected:
     OrthographicCameraConfig config;
+};
+
+class IsometricCamera : public OrthographicCamera
+{
+public:
+    IsometricCamera(const OrthographicCameraConfig& config);
 };
 
 class PerspectiveCamera : public Camera
