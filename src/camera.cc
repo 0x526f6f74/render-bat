@@ -57,7 +57,7 @@ void Camera::refresh_if_needed()
     if (this->dirty_view_projection_matrix)
     {
         this->view_projection_matrix = this->projection_matrix * this->view_matrix;
-        this->dirty_view_matrix = false;
+        this->dirty_view_projection_matrix = false;
     }
 }
 
