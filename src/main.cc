@@ -14,6 +14,7 @@
 #include "offscreen.h"
 #include "shader.h"
 #include "vertex.h"
+#include "window.h"
 
 static std::array<rb::Vertex, NUM_VERTICES> vertices;
 static std::array<rb::index_t, NUM_INDICES> indices;
@@ -42,21 +43,20 @@ int main()
     set_block_vertices(0, 0, {0.0f, 0.0f, 0.0f});
     set_block_vertices(1, 1, {1.0f, 0.0f, 0.0f});
 
-    rb::OrthographicCameraConfig camera_config{{WIDTH, HEIGHT, static_cast<float>(WIDTH) / HEIGHT, 3.0f, 0.3f, 0.2f}, 2.0f};
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
-    rb::IsometricCameraController camera{camera_config};
+    rb::IsometricCamera camera{{static_cast<float>(WIDTH) / HEIGHT, 2.0f}};
     rb::RealtimeWindow window{
         {window_config,
          "Render Bat",
          {WIDTH, HEIGHT},
          true,
-         [&camera](rb::RealtimeWindow& window, double xoffset, double yoffset) { camera.on_mouse_scroll(yoffset); },
+         [&camera](rb::RealtimeWindow& window, double xoffset, double yoffset) { /* camera.on_mouse_scroll(yoffset); */ },
          [&camera](rb::RealtimeWindow& window, double xpos, double ypos)
          {
              auto& state = window.get_state();
              const glm::dvec2 new_cursor_pos = {xpos, ypos};
-             if (state.cursor_is_disabled) camera.on_mouse_move(new_cursor_pos - state.cursor_pos);
+             // if (state.cursor_is_disabled) camera.on_mouse_move(new_cursor_pos - state.cursor_pos);
              state.cursor_pos = new_cursor_pos;
          }}};
 #else
@@ -95,7 +95,7 @@ int main()
         while (window.is_open())
         {
             window.update_time();
-            camera.update(window.get_state());
+            // camera.update(window.get_state());
 #endif
 
             glViewport(0, 0, WIDTH, HEIGHT);
