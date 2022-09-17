@@ -60,7 +60,7 @@ int main()
              state.cursor_pos = new_cursor_pos;
          }}};
 #else
-    rb::IsometricCamera camera{camera_config, 2.0f};
+    rb::IsometricCamera camera{{static_cast<float>(WIDTH) / HEIGHT, 2.0f}};
     const rb::OffscreenWindow window{window_config};
 #endif
 
