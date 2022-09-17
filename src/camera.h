@@ -22,6 +22,8 @@ public:
     void increment_pitch(float delta_pitch);
     void increment_yaw(float delta_yaw);
 
+    virtual void zoom_in(float zoom_level) = 0;
+
     const glm::mat4& get_view_projection_matrix();
 
 protected:
@@ -56,7 +58,7 @@ public:
 
     OrthographicCamera(const Config& config);
 
-    void increment_zoom_level(float delta_zoom);
+    virtual void zoom_in(float delta_zoom) override;
 
 private:
     Config config;
@@ -78,20 +80,17 @@ public:
 
     PerspectiveCamera(const Config& config);
 
-    void increment_zoom_level(float delta_zoom);
+    virtual void zoom_in(float delta_zoom) override;
 
 private:
     Config config;
 };
 
-template<typename T>
-class CameraController : public T
+class CameraController
 {
 public:
     struct Config
     {
-        T::Config base;
-
         float velocity;
         float mouse_sensivity;
         float zoom_sensivity;
@@ -107,36 +106,15 @@ public:
         bool shift = false;
     };
 
-    CameraController(const Config& config) : T(config.base), config(config)
-    { }
+    CameraController(const Config& config, Camera* camera);
 
-    void update_position(double dt, const KeyboardState& keyboard)
-    {
-        if (keyboard.w) this->move_forwards(this->config.velocity * dt);
-        if (keyboard.a) this->move_sideways(-this->config.velocity * dt);
-        if (keyboard.s) this->move_forwards(-this->config.velocity * dt);
-        if (keyboard.d) this->move_sideways(this->config.velocity * dt);
-        if (keyboard.space) this->move_upwards(this->config.velocity * dt);
-        if (keyboard.shift) this->move_upwards(-this->config.velocity * dt);
-    }
-
-    void on_mouse_moved(const glm::vec2& delta_pos)
-    {
-        this->increment_pitch(-delta_pos.y * this->config.mouse_sensivity);
-        this->increment_yaw(delta_pos.x * this->config.mouse_sensivity);
-    }
-
-    void on_mouse_scrolled(double dy)
-    {
-        this->increment_zoom_level(-dy * this->config.zoom_sensivity);
-    }
+    void update_position(double dt, const KeyboardState& keyboard) const;
+    void on_mouse_moved(const glm::vec2& delta_pos) const;
+    void on_mouse_scrolled(double dy) const;
 
 private:
     Config config;
+    Camera* camera;
 };
-
-using OrthographicCameraController = CameraController<OrthographicCamera>;
-using IsometricCameraController = CameraController<IsometricCamera>;
-using PerspectiveCameraController = CameraController<PerspectiveCamera>;
 
 }  // namespace rb

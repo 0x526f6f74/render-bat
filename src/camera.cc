@@ -81,9 +81,9 @@ OrthographicCamera::OrthographicCamera(const Config& config)
   , config(config)
 { }
 
-void OrthographicCamera::increment_zoom_level(float delta_zoom)
+void OrthographicCamera::zoom_in(float zoom_level)
 {
-    this->config.zoom_level += delta_zoom;
+    this->config.zoom_level += zoom_level;
     this->projection_matrix =
         glm::ortho(-config.aspect_ratio * config.zoom_level, config.aspect_ratio * config.zoom_level, -config.zoom_level, config.zoom_level, -10.0f, 100.0f);
     this->dirty_view_projection_matrix = true;
@@ -98,11 +98,35 @@ IsometricCamera::IsometricCamera(const Config& config) : OrthographicCamera(conf
 PerspectiveCamera::PerspectiveCamera(const Config& config) : Camera(glm::perspective(config.fov, config.aspect_ratio, 0.1f, 1000.0f)), config(config)
 { }
 
-void PerspectiveCamera::increment_zoom_level(float delta_zoom)
+void PerspectiveCamera::zoom_in(float zoom_level)
 {
-    this->config.fov += delta_zoom;
+    this->config.fov += zoom_level;
     this->projection_matrix = glm::perspective(config.fov, config.aspect_ratio, 0.1f, 1000.0f);
     this->dirty_view_projection_matrix = true;
+}
+
+CameraController::CameraController(const Config& config, Camera* camera) : config(config), camera(camera)
+{ }
+
+void CameraController::update_position(double dt, const KeyboardState& keyboard) const
+{
+    if (keyboard.w) this->camera->move_forwards(this->config.velocity * dt);
+    if (keyboard.a) this->camera->move_sideways(-this->config.velocity * dt);
+    if (keyboard.s) this->camera->move_forwards(-this->config.velocity * dt);
+    if (keyboard.d) this->camera->move_sideways(this->config.velocity * dt);
+    if (keyboard.space) this->camera->move_upwards(this->config.velocity * dt);
+    if (keyboard.shift) this->camera->move_upwards(-this->config.velocity * dt);
+}
+
+void CameraController::on_mouse_moved(const glm::vec2& delta_pos) const
+{
+    this->camera->increment_pitch(-delta_pos.y * this->config.mouse_sensivity);
+    this->camera->increment_yaw(delta_pos.x * this->config.mouse_sensivity);
+}
+
+void CameraController::on_mouse_scrolled(double dy) const
+{
+    this->camera->zoom_in(-dy * this->config.zoom_sensivity);
 }
 
 }  // namespace rb
