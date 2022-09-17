@@ -55,7 +55,7 @@ RealtimeWindow::RealtimeWindow(const RealtimeWindowConfig& config) : Window(conf
 
     this->make_opengl_context();
 
-    glfwSetWindowUserPointer(this->window, reinterpret_cast<void*>(this));
+    glfwSetWindowUserPointer(this->window, static_cast<void*>(this));
     glfwSwapInterval(static_cast<int>(this->state.config.vsync));
     if (this->state.cursor_is_disabled) glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -63,7 +63,7 @@ RealtimeWindow::RealtimeWindow(const RealtimeWindowConfig& config) : Window(conf
         this->window,
         [](GLFWwindow* window, int key, int scancode, int action, int mods)
         {
-            RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+            RealtimeWindow& self = *static_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
             auto& state = self.get_state();
             if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS && state.cursor_is_disabled)
             {
@@ -87,7 +87,7 @@ RealtimeWindow::RealtimeWindow(const RealtimeWindowConfig& config) : Window(conf
         this->window,
         [](GLFWwindow* window, int button, int action, int mods)
         {
-            RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+            RealtimeWindow& self = *static_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
             auto& state = self.get_state();
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !state.cursor_is_disabled)
             {
@@ -100,7 +100,7 @@ RealtimeWindow::RealtimeWindow(const RealtimeWindowConfig& config) : Window(conf
         this->window,
         [](GLFWwindow* window, double xoffset, double yoffset)
         {
-            RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+            RealtimeWindow& self = *static_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
             self.get_state().config.scroll_callback(self, xoffset, yoffset);
         }
     );
@@ -108,7 +108,7 @@ RealtimeWindow::RealtimeWindow(const RealtimeWindowConfig& config) : Window(conf
         this->window,
         [](GLFWwindow* window, double xpos, double ypos)
         {
-            RealtimeWindow& self = *reinterpret_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
+            RealtimeWindow& self = *static_cast<RealtimeWindow*>(glfwGetWindowUserPointer(window));
             self.get_state().config.cursor_pos_callback(self, xpos, ypos);
         }
     );

@@ -46,7 +46,7 @@ int main()
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
     rb::IsometricCamera camera{{static_cast<float>(WIDTH) / HEIGHT, 2.0f}};
-    const rb::CameraController controller{{3.0f, 0.3f, 0.1f}, reinterpret_cast<rb::Camera*>(&camera)};
+    const rb::CameraController controller{{3.0f, 0.3f, 0.1f}, static_cast<rb::Camera*>(&camera)};
     rb::RealtimeWindow window{
         {window_config,
          "Render Bat",
@@ -78,8 +78,8 @@ int main()
         const rb::Framebuffer framebuffer{WIDTH, HEIGHT};
 #endif
 
-        const rb::VertexBuffer vao{sizeof(vertices), reinterpret_cast<const void*>(vertices.data())};
-        const rb::IndexBuffer ibo{sizeof(indices), reinterpret_cast<const void*>(indices.data())};
+        const rb::VertexBuffer vao{sizeof(vertices), static_cast<const void*>(vertices.data())};
+        const rb::IndexBuffer ibo{sizeof(indices), static_cast<const void*>(indices.data())};
         const rb::Shader shader{"../render-bat/shaders/cubemap.glsl"};
 
         const rb::Cubemap grass_cubemap{{
