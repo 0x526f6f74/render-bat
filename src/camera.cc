@@ -85,7 +85,7 @@ void OrthographicCamera::increment_zoom_level(float delta_zoom)
 {
     this->config.zoom_level += delta_zoom;
     this->projection_matrix =
-        glm::ortho(-config.aspect_ratio * config.zoom_level, config.aspect_ratio * config.zoom_level, -config.zoom_level, config.zoom_level);
+        glm::ortho(-config.aspect_ratio * config.zoom_level, config.aspect_ratio * config.zoom_level, -config.zoom_level, config.zoom_level, -10.0f, 100.0f);
     this->dirty_view_projection_matrix = true;
 }
 
@@ -95,7 +95,14 @@ IsometricCamera::IsometricCamera(const Config& config) : OrthographicCamera(conf
     this->increment_yaw(-45.0f);
 }
 
-PerspectiveCamera::PerspectiveCamera(const Config& config) : Camera(glm::perspective(config.fov, config.aspect_ratio, 0.1f, 1000.0f))
+PerspectiveCamera::PerspectiveCamera(const Config& config) : Camera(glm::perspective(config.fov, config.aspect_ratio, 0.1f, 1000.0f)), config(config)
 { }
+
+void PerspectiveCamera::increment_zoom_level(float delta_zoom)
+{
+    this->config.fov += delta_zoom;
+    this->projection_matrix = glm::perspective(config.fov, config.aspect_ratio, 0.1f, 1000.0f);
+    this->dirty_view_projection_matrix = true;
+}
 
 }  // namespace rb

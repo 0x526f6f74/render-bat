@@ -45,18 +45,18 @@ int main()
 
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
-    rb::IsometricCamera camera{{static_cast<float>(WIDTH) / HEIGHT, 2.0f}};
+    rb::PerspectiveCameraController camera{{{static_cast<float>(WIDTH) / HEIGHT, 45.0f}, 3.0f, 0.3f, 0.1f}};
     rb::RealtimeWindow window{
         {window_config,
          "Render Bat",
          {WIDTH, HEIGHT},
          true,
-         [&camera](rb::RealtimeWindow& window, double xoffset, double yoffset) { /* camera.on_mouse_scroll(yoffset); */ },
+         [&camera](rb::RealtimeWindow& window, double xoffset, double yoffset) { camera.on_mouse_scrolled(yoffset); },
          [&camera](rb::RealtimeWindow& window, double xpos, double ypos)
          {
              auto& state = window.get_state();
              const glm::dvec2 new_cursor_pos = {xpos, ypos};
-             // if (state.cursor_is_disabled) camera.on_mouse_move(new_cursor_pos - state.cursor_pos);
+             if (state.cursor_is_disabled) camera.on_mouse_moved(new_cursor_pos - state.cursor_pos);
              state.cursor_pos = new_cursor_pos;
          }}};
 #else
@@ -95,7 +95,8 @@ int main()
         while (window.is_open())
         {
             window.update_time();
-            // camera.update(window.get_state());
+            const auto& state = window.get_state();
+            camera.update_position(state.dt, *reinterpret_cast<const rb::PerspectiveCameraController::KeyboardState*>(&state.w_is_pressed));
 #endif
 
             glViewport(0, 0, WIDTH, HEIGHT);

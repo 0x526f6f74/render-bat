@@ -55,3 +55,4 @@ SpaceBeforeInheritanceColon: true
 BinPackArguments: false
 BinPackParameters: false
 Cpp11BracedListStyle: true
+SpaceAfterTemplateKeyword: false
