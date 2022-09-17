@@ -26,7 +26,7 @@ void Camera::move_upwards(float distance)
 void Camera::increment_pitch(float delta_pitch)
 {
     this->pitch += delta_pitch;
-    this->pitch = glm::sign(this->pitch) * glm::min(glm::abs(this->pitch), 89.9f);
+    this->pitch = glm::sign(this->pitch) * glm::min(glm::abs(this->pitch), 89.0f);
     this->dirty_look_at = true;
 }
 
