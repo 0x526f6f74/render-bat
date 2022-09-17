@@ -45,7 +45,7 @@ int main()
 
     const rb::WindowConfig window_config{{3, 3}, 8};
 #if RB_REAL_TIME
-    rb::PerspectiveCameraController camera{{{static_cast<float>(WIDTH) / HEIGHT, 45.0f}, 3.0f, 0.3f, 0.1f}};
+    rb::IsometricCameraController camera{{{static_cast<float>(WIDTH) / HEIGHT, 2.0f}, 3.0f, 0.3f, 0.1f}};
     rb::RealtimeWindow window{
         {window_config,
          "Render Bat",
@@ -96,7 +96,7 @@ int main()
         {
             window.update_time();
             const auto& state = window.get_state();
-            camera.update_position(state.dt, *reinterpret_cast<const rb::PerspectiveCameraController::KeyboardState*>(&state.w_is_pressed));
+            camera.update_position(state.dt, *reinterpret_cast<const rb::IsometricCameraController::KeyboardState*>(&state.w_is_pressed));
 #endif
 
             glViewport(0, 0, WIDTH, HEIGHT);
