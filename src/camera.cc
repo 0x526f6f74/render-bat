@@ -95,7 +95,7 @@ IsometricCamera::IsometricCamera(const Config& config) : OrthographicCamera(conf
     this->increment_yaw(-45.0f);
 }
 
-PerspectiveCamera::PerspectiveCamera(const Config& config) : Camera(glm::perspective(config.fov / 2.0f, config.aspect_ratio, 0.1f, 1000.0f))
+PerspectiveCamera::PerspectiveCamera(const Config& config) : Camera(glm::perspective(config.fov, config.aspect_ratio, 0.1f, 1000.0f))
 { }
 
 }  // namespace rb
