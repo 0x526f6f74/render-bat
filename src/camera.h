@@ -15,7 +15,6 @@ public:
 
     Camera(const glm::mat4& projection_matrix);
 
-    void translate(const glm::vec3& delta_pos);
     void move_forwards(float distance);
     void move_sideways(float distance);
     void move_upwards(float distance);
@@ -33,6 +32,7 @@ protected:
 private:
     static constexpr glm::vec3 up{0.0f, 1.0f, 0.0f};
 
+    void translate(const glm::vec3& delta_pos);
     void refresh_if_needed();
 
     float pitch = 0.0f;

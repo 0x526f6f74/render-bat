@@ -8,12 +8,6 @@ namespace rb
 Camera::Camera(const glm::mat4& projection_matrix) : projection_matrix(projection_matrix)
 { }
 
-void Camera::translate(const glm::vec3& delta_pos)
-{
-    this->position += delta_pos;
-    this->dirty_view_matrix = true;
-}
-
 void Camera::move_forwards(float distance)
 {
     this->translate(glm::normalize(glm::vec3(1.0f, 0.0f, 1.0f) * this->look_at) * distance);
@@ -47,6 +41,12 @@ const glm::mat4& Camera::get_view_projection_matrix()
     this->refresh_if_needed();
 
     return this->view_projection_matrix;
+}
+
+void Camera::translate(const glm::vec3& delta_pos)
+{
+    this->position += delta_pos;
+    this->dirty_view_matrix = true;
 }
 
 void Camera::refresh_if_needed()
