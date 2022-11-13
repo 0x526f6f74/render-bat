@@ -1,0 +1,6 @@
+[submodule "lib/nbt"]
+	path = lib/nbt
+	url = https://github.com/0x526f6f74/nbt
+[submodule "lib/glfw"]
+	path = lib/glfw
+	url = https://github.com/glfw/glfw
