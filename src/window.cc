@@ -43,7 +43,7 @@ RealtimeWindow::RealtimeWindow(const Config& config) : state({config})
                 state.cursor_is_disabled = false;
                 self.set_input_mode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             }
-            else if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
+            else if (key == GLFW_KEY_Q && action == GLFW_PRESS)
                 self.close();
             switch (key)
             {
