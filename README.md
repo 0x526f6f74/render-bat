@@ -2,7 +2,7 @@
     <img src="https://cdn.discordapp.com/attachments/1018900693312090152/1018900722777079928/main.png" width="512">
     <br>
     <br>
-    <a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a>
+    <a href="https://choosealicense.com/licenses/gpl-3.0"><img src="https://img.shields.io/github/license/0x526f6f74/nbt" alt="GNU GPLv3"></a>
     <a href="https://github.com/0x526f6f74/render-bat/actions"><img src="https://cdn.discordapp.com/attachments/727496809840115722/1017520345395245107/ci_badge.png" alt="CI Status"></a>
     <br>
     <br>
@@ -30,7 +30,7 @@
 
 ## Installation
 
-> If you have any issues with the installation of *Render Bat*, you may contact the author on [Discord](https://discord.com/).
+> If you have any issues with the installation of *Render Bat*, you may contact the author on [Discord](https://discord.com).
 
 ### Dependencies
 
