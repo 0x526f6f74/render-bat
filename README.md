@@ -2,7 +2,7 @@
     <img src="https://cdn.discordapp.com/attachments/1018900693312090152/1018900722777079928/main.png" width="512">
     <br>
     <br>
-    <a href="https://choosealicense.com/licenses/gpl-3.0"><img src="https://img.shields.io/github/license/0x526f6f74/nbt" alt="GNU GPLv3"></a>
+    <a href="https://www.gnu.org/licenses/gpl-2.0.html"><img src="https://img.shields.io/github/license/0x526f6f74/nbt" alt="GNU GPLv2"></a>
     <a href="https://github.com/0x526f6f74/render-bat/actions"><img src="https://cdn.discordapp.com/attachments/727496809840115722/1017520345395245107/ci_badge.png" alt="CI Status"></a>
     <br>
     <br>
@@ -87,7 +87,7 @@ As *Render Bat* is still in a very early development phase, it can only render a
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
+This project is licensed under the [GNU General Public License v2.0](https://www.gnu.org/licenses/gpl-2.0.html).
 
 ## About the author
 
