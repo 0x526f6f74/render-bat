@@ -70,7 +70,7 @@ make
 
 > NOTE: You may add the `-DCMAKE_BUILD_TYPE=Debug` or `-DCMAKE_BUILD_TYPE=Release` option to the fourth command to build in either debug or release mode respectively.
 
-A file called `RenderBat` should appear in the `build` directory. You may run it using `./RenderBat`.
+A file called `RenderBat` should appear in the `build` directory. You can run it using `./RenderBat`.
 
 ## Usage
 
